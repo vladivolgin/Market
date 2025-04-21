@@ -1,5 +1,5 @@
 # Market2
-Market2 is a mobile application designed for reselling used items, prioritizing user confidentiality and data protection. The app is built using SwiftUI and is tailored for iOS devices, offering a modern and smooth user experience
+This app is designed to allow anyone to sell unwanted items safely and without having to worry about revealing any information.
 ## Features
 
 - 🛍️ Browse items in a user-friendly interface
@@ -10,7 +10,7 @@ Market2 is a mobile application designed for reselling used items, prioritizing 
 
 ## Application Architecture
 
-The application is built on the MVVM (Model-View-ViewModel) architecture using SwiftUI and Combine for reactive programming.
+My application is built on the MVVM (Model-View-ViewModel) architecture using SwiftUI and Combine for reactive programming.
 
 ## Requirements
 
