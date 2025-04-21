@@ -250,12 +250,10 @@ Adds a new product to the list.
 
 product: Product to add
 Returns: Void
-```
+
 
 ## Usage Example (AI-generated):
-swift
-
-Copy
+```swift
 let newProduct = Product(
     id: UUID().uuidString,
     sellerId: currentUser.id,
@@ -270,5 +268,41 @@ let newProduct = Product(
     createdAt: Date()
 )
 dataManager.addProduct(newProduct)
+```
+```
 createChat(with otherUser: User) -> Chat?
+```
 Creates a new chat with the specified user or returns an existing one.
+
+## Parameters:
+
+```otherUser:``` User to create a chat with
+Returns: Created or existing chat, or nil in case of an error
+
+## Usage Example (AI-generated):
+```swift
+
+if let chat = dataManager.createChat(with: seller) {
+    // Use the chat
+}
+```
+
+```sendMessage(content: String, to receiverId: String)```
+Sends a message to the specified user.
+
+## Parameters:
+```content```: Message text
+```receiverId```: Recipient ID
+
+Returns: Void
+
+## Usage Example (AI-generated):
+```swift
+dataManager.sendMessage(content: "Hello! Is the item still available?", to: "user123")
+getMessages(for chatId: String) -> [Message]
+```
+Gets the list of messages for the specified chat.
+
+```
+I've added "(AI-generated)" to each usage example to clearly indicate that these examples were created by AI and may need to be adjusted for your specific implementation.
+```
