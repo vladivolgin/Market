@@ -1,3 +1,16 @@
+
+## Table of Contents
+- [Features](#features)
+- [Application Architecture](#application-architecture)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Product documentation](#product-documentation)
+- [Project Structure](#project-structure)
+- [Development Process](#development-process)
+- [Function Header Comments](#function-header-comments)
+- [Error Handling Strategy](#error-handling-strategy)
+- [Technical Decision log](#technical-decision-log)
+
 # Market2
 This app is designed to allow anyone to sell unwanted items safely and without having to worry about revealing any information.
 ## Features
@@ -7,6 +20,7 @@ This app is designed to allow anyone to sell unwanted items safely and without h
 - 🔒 Enhanced personal data protection
 - 📱 Modern SwiftUI interface
 - 📦 Convenient addition of new items
+
 
 ## Application Architecture
 
@@ -156,9 +170,8 @@ This schema is a representation of the functionality of the application at this 
 
 This diagram is a representation of the functionality of the application at this stage of development. 
 
-## Logical Algoritms
 
-# Developer's Guide
+## Developer's Guide
 
 ## Getting Started
 
@@ -360,6 +373,7 @@ func fetchProducts() {
         }
     }
 }
+
 ```
 ## Coding Conventions
 Naming
@@ -406,7 +420,34 @@ Code Organization in a File:
        func additionalFunctionality() { }
    }
 ```
+# Function Header Comments
 
+## Purpose
+Function header comments are critical for my codebase as they document exactly what each function does, what inputs it expects, and what outputs it provides. I've found that well-documented functions make it much easier for me to revisit my code months later, and they're essential when collaborating with other developers
+
+## Format
+We use a standardized format for function header comments based on Swift's documentation comments (triple slash `///`):
+```swift
+/// Brief description of what the function does
+///
+/// More detailed explanation if needed. This can span
+/// multiple lines and provide additional context.
+///
+/// - Parameters:
+///   - paramName1: Description of first parameter
+///   - paramName2: Description of second parameter
+/// - Returns: Description of the return value
+/// - Throws: Description of potential errors that can be thrown
+/// - Note: Any additional notes or warnings
+/// - Example:
+///   ```swift
+///   let result = myFunction(param1: "value", param2: 42)
+///   // result will be...
+///   
+func myFunction(paramName1: String, paramName2: Int) -> Result {
+    // Implementation
+}
+```
 ## Grouping Files in the Project:
 Group files by functionality, not by type
 For example: ```/Features/ProductList/ ``` instead of ```/Views/ and /ViewModels/```
@@ -469,5 +510,10 @@ Comments for Complex Code Sections:
        // Code...
    }
 ```
+## Technical Decision log 
+### Documentation
 
+For detailed documentation, please refer to the following resources:
+
+- [Technical Decision Log](TechnicalDecisionLog.md) - Log of key technical decisions and their rationale
 
