@@ -13,7 +13,7 @@ Market2 is a mobile application for reselling used items with a focus on confide
 ## Application Architecture
 
 The application is built on the MVVM (Model-View-ViewModel) architecture using SwiftUI and Combine for reactive programming.
-
+```
 market2/
 ├── market2/
 │   ├── Models/
@@ -55,7 +55,7 @@ market2/
 └── market2UITests/
 ├── market2UITests.swift
 └── market2UITestsLaunchTests.swift
-
+```
 ## Requirements
 
 - iOS 14.0+
