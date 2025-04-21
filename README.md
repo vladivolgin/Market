@@ -188,11 +188,8 @@ When developing the project, follow these style rules:
 ```bash
    git checkout -b feature/your-feature-name
 ```
-
 2. Make the necessary changes and test them
 3. Create a commit with a descriptive message:
-   bash
-
 ```bash
 git commit -m "Add feature: your feature description"
 ```
@@ -248,8 +245,8 @@ addProduct(_ product: Product)
 ```
 Adds a new product to the list.
 
-product: Product to add
-Returns: Void
+```product```: Product to add
+```Returns```: Void
 
 
 ## Usage Example (AI-generated):
