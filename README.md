@@ -34,9 +34,7 @@ Copy
 ```
 open Market2.xcodeproj
 ```
-If the project uses dependencies through Swift Package Manager, Xcode will automatically download them when the project is first opened.
-Select the target device (simulator or real device) at the top of Xcode.
-Click the "Build and Run" button (triangle) or use the keyboard shortcut Cmd+R to launch the application.
+When working on my project, I set it up to use dependencies through Swift Package Manager. This means Xcode automatically downloads everything needed when the project is opened for the first time. To test it, you can select the target device (simulator or a real device) at the top of Xcode, then hit "Build and Run" (the triangle button) or just press Cmd+R to launch the app.
 Creating Your First Item
 Launch the application
 Go to the "Add" tab (center button with a plus)
