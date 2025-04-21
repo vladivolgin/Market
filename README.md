@@ -295,3 +295,148 @@ Gets the list of messages for the specified chat.
 ```
 I've added "(AI-generated)" to each usage example to clearly indicate that these examples were created by AI and may need to be adjusted for your specific implementation.
 ```
+
+## Error Handling Strategy
+Network Interaction Level: All network errors are handled in API services and converted to NetworkError.
+```Data Level```: Data-related errors are handled in ```DataManager``` and converted to ```DataError```.
+Presentation Level: ViewModel handles errors and provides appropriate messages for display to the user.
+## Error Handling Example
+```swift
+func fetchProducts() {
+    isLoading = true
+    errorMessage = nil
+    
+    apiService.getProducts { [weak self] result in
+        guard let self = self else { return }
+        
+        self.isLoading = false
+        
+        switch result {
+        case .success(let products):
+            self.products = products
+        case .failure(let error):
+            switch error {
+            case .noInternet:
+                self.errorMessage = "No internet connection"
+            case .unauthorized:
+                self.errorMessage = "Authentication required"
+                self.authManager.signOut()
+            case .serverError(let code):
+                self.errorMessage = "Server error: \(code)"
+            default:
+                self.errorMessage = "An error occurred while loading products"
+            }
+            
+            self.logError(error)
+        }
+    }
+}
+```
+## Coding Conventions
+Naming
+### Types (classes, structures, enums, protocols):
+Use PascalCase (e.g., ProductDetailView, NetworkError)
+Names should be nouns
+### Variables and Functions:
+Use camelCase (e.g., productList, fetchProducts())
+Function names should start with a verb
+### Constants:
+For global constants, use the k prefix (e.g., kMaxRetryCount)
+For static constants, use camelCase (e.g., static let maxRetryCount = 3)
+### Abbreviations:
+Common abbreviations (URL, ID) should be written in uppercase
+For other abbreviations, use camelCase
+```swift
+## File Structure
+Code Organization in a File:
+
+   // 1. Imports
+   import SwiftUI
+   import Combine
+   
+   // 2. Protocols
+   protocol ProductsViewModelProtocol { }
+   
+   // 3. Main Class/Structure
+   class ProductsViewModel: ObservableObject, ProductsViewModelProtocol {
+       // 3.1 Properties
+       @Published var products: [Product] = []
+       
+       // 3.2 Initializers
+       init() { }
+       
+       // 3.3 Public Methods
+       func fetchProducts() { }
+       
+       // 3.4 Private Methods
+       private func processProducts(_ products: [Product]) { }
+   }
+   
+   // 4. Extensions
+   extension ProductsViewModel {
+       func additionalFunctionality() { }
+   }
+```
+
+## Grouping Files in the Project:
+Group files by functionality, not by type
+For example: ```/Features/ProductList/ ``` instead of ```/Views/ and /ViewModels/```
+
+## Formatting
+### Indentation:
+Use 4 spaces for indentation
+Do not use tabs
+### Braces:
+Opening brace on the same line
+Closing brace on a new line
+### Maximum Line Length:
+100 characters
+### Spaces:
+Space after comma
+Space before and after operators
+No spaces inside parentheses
+## SwiftUI Conventions
+### Modifiers:
+Each modifier on a new line
+Group related modifiers 
+## Code Example(Ai-Generated)
+```swift
+   Text("Hello, World!")
+       .font(.headline)
+       .foregroundColor(.primary)
+       
+       .padding()
+       .background(Color.secondary.opacity(0.2))
+       .cornerRadius(10)
+```
+### Preview:
+Add a preview for each View
+Use different device sizes and themes
+
+## Code Documentation
+Header Comments:
+## Code Example(Ai-Generated)
+```swift
+   /// Displays detailed product information
+   ///
+   /// Used to show complete product information,
+   /// including images, description, and action buttons.
+   ///
+   /// - Example:
+   /// ```
+   /// ProductDetailView(product: sampleProduct)
+   /// ```
+   struct ProductDetailView: View {
+       // Code...
+   }
+```
+
+Comments for Complex Code Sections:
+## Code Example(Ai-Generated)
+```swift
+   // Using quicksort algorithm to optimize
+   // performance with large number of items
+   func sortProducts() {
+       // Code...
+   }
+```
