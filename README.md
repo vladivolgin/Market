@@ -1,7 +1,5 @@
 # Market2
-
-Market2 is a mobile application for reselling used items with a focus on confidentiality and user data protection. The app is developed using SwiftUI and is designed for iOS devices.
-
+Market2 is a mobile application designed for reselling used items, prioritizing user confidentiality and data protection. The app is built using SwiftUI and is tailored for iOS devices, offering a modern and smooth user experience
 ## Features
 
 - 🛍️ Browse items in a user-friendly interface
