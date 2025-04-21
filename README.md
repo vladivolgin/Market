@@ -63,9 +63,7 @@ Update your information and save the changes
 
 ## Architecture Overview
 
-Market2 is built on the MVVM (Model-View-ViewModel) architecture, which provides a clear separation of responsibilities between components and simplifies testing. The application uses SwiftUI for creating the user interface and Combine for reactive programming.
-
-![Application Architecture](docs/images/architecture.png)
+Market2 is developed using the MVVM (Model-View-ViewModel) architecture, ensuring a clean separation of concerns and making the components easier to test. The user interface is built with SwiftUI, while Combine is used for handling reactive programming.
 
 ### Key Components
 
@@ -91,7 +89,7 @@ Market2 is built on the MVVM (Model-View-ViewModel) architecture, which provides
 
 ## Data Flow
 
-The data flow in the application follows the principles of unidirectional architecture:
+The application is designed with a unidirectional data flow architecture in mind:
 
 1. The user interacts with the view
 2. The view calls methods in the DataManager
@@ -111,7 +109,7 @@ Additional screens are opened modally or through NavigationLink.
 
 ## Security and Privacy
 
-One of the key features of Market2 is increased attention to security and privacy:
+One of the key features of this app is increased attention to security and privacy:
 
 - Minimal collection of user data
 - Encryption of messages in chats
@@ -129,8 +127,6 @@ Future versions plan to add:
 - Advanced privacy settings
 ```
 
-Developer's Guide
-markdown
 
 
 # Developer's Guide
