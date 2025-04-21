@@ -246,3 +246,29 @@ Loads the list of products.
 dataManager.fetchProducts()
 addProduct(_ product: Product)
 ```
+Adds a new product to the list.
+
+product: Product to add
+Returns: Void
+```
+
+## Usage Example (AI-generated):
+swift
+
+Copy
+let newProduct = Product(
+    id: UUID().uuidString,
+    sellerId: currentUser.id,
+    title: "iPhone 13",
+    description: "Excellent condition",
+    price: 50000,
+    category: "Electronics",
+    condition: "Excellent",
+    location: "Moscow",
+    imageURLs: [],
+    status: .active,
+    createdAt: Date()
+)
+dataManager.addProduct(newProduct)
+createChat(with otherUser: User) -> Chat?
+Creates a new chat with the specified user or returns an existing one.
