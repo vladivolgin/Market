@@ -127,7 +127,36 @@ Future versions plan to add:
 - Advanced privacy settings
 ```
 
+## Product documentation
+### use cases diagram
+<img width="1060" alt="Снимок экрана 2025-04-21 в 22 39 37" src="https://github.com/user-attachments/assets/6f46ad5b-0228-410b-bf7a-56428ea4206a" />
 
+<img width="628" alt="Снимок экрана 2025-04-21 в 22 39 42" src="https://github.com/user-attachments/assets/6268024f-b226-4fc3-9d73-7af1d56dc066" />
+
+<img width="618" alt="Снимок экрана 2025-04-21 в 22 39 53" src="https://github.com/user-attachments/assets/8c6c6042-a434-4cdf-803e-06225eb50f0a" />
+
+
+This diagrams is a representation of the functionality of the application at this stage of development.
+## Software Architecture Schemas
+### Logical architecture
+<img width="758" alt="Снимок экрана 2025-04-21 в 22 43 46" src="https://github.com/user-attachments/assets/e92fbc07-b83b-4016-b0c8-f7de0c2cd6be" />
+
+This schema is a representation of the functionality of the application at this stage of development.
+
+### Physical Architecture
+<img width="988" alt="Снимок экрана 2025-04-21 в 20 51 23" src="https://github.com/user-attachments/assets/a81a8b4e-d075-46ac-97b9-14cf12f24352" />
+
+This schema is a representation of the functionality of the application at this stage of development.
+## Database schema
+<img width="989" alt="Снимок экрана 2025-04-21 в 21 41 31" src="https://github.com/user-attachments/assets/97d8dcd5-6c1e-4a01-9f6e-9b42b742b54d" />
+
+This schema is a representation of the functionality of the application at this stage of development.
+## Sequence diagram
+<img width="1005" alt="Снимок экрана 2025-04-21 в 19 21 24" src="https://github.com/user-attachments/assets/ae37ab29-b397-49e0-9145-52f916424b09" />
+
+This diagram is a representation of the functionality of the application at this stage of development. 
+
+## Logical Algoritms
 
 # Developer's Guide
 
