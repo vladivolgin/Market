@@ -13,49 +13,7 @@ Market2 is a mobile application for reselling used items with a focus on confide
 ## Application Architecture
 
 The application is built on the MVVM (Model-View-ViewModel) architecture using SwiftUI and Combine for reactive programming.
-```
-market2/
-├── market2/
-│   ├── Models/
-│   │   ├── AddProductViewModel.swift
-│   │   ├── Chat.swift
-│   │   ├── Message.swift
-│   │   ├── Product.swift
-│   │   ├── User.swift
-│   │   └── ViewModel.swift
-│   ├── Preview Content/
-│   │   ├── Preview Assets/
-│   │   └── ProductDetailView.swift
-│   ├── Profile/
-│   │   ├── EditProfileView.swift
-│   │   ├── ProfileView.swift
-│   │   ├── ProfileViewModel.swift
-│   │   ├── SettingsRow.swift
-│   │   ├── SettingsView.swift
-│   │   └── UserProductCard.swift
-│   ├── Utilities/
-│   │   └── ImagePicker.swift
-│   ├── Views/
-│   │   ├── Messenger/
-│   │   │   ├── ChatDetailView.swift
-│   │   │   ├── ChatListView.swift
-│   │   │   ├── ChatView.swift
-│   │   │   └── MessengerViewModel.swift
-│   │   ├── AddProductView.swift
-│   │   └── MarketPlaceView.swift
-│   ├── Assets/
-│   ├── ContentView.swift
-│   ├── DataManager.swift
-│   ├── info/
-│   ├── market2/
-│   ├── market2App.swift
-│   └── Persistence.swift
-├── market2Tests/
-│   └── market2Tests.swift
-└── market2UITests/
-├── market2UITests.swift
-└── market2UITestsLaunchTests.swift
-```
+
 ## Requirements
 
 - iOS 14.0+
@@ -173,3 +131,74 @@ Future versions plan to add:
 - Data storage in CloudKit
 - Support for push notifications
 - Advanced privacy settings
+```
+
+Developer's Guide
+markdown
+
+
+# Developer's Guide
+
+## Getting Started
+
+To start working on the Market2 project, follow the installation instructions in README.md.
+
+## Project Structure
+```
+Market2/
+├── App/
+│   ├── market2App.swift       # Application entry point
+│   └── ContentView.swift      # Main view with TabView
+├── Models/
+│   ├── Product.swift          # Product model
+│   ├── User.swift             # User model
+│   ├── Chat.swift             # Chat model
+│   └── Message.swift          # Message model
+├── Views/
+│   ├── Marketplace/
+│   │   ├── MarketplaceView.swift       # Marketplace view
+│   │   ├── ProductCard.swift           # Product card
+│   │   ├── ProductsGrid.swift          # Products grid
+│   │   └── ProductDetailView.swift     # Product detail view
+│   ├── Chat/
+│   │   ├── ChatsListView.swift         # Chats list
+│   │   ├── ChatDetailView.swift        # Chat detail view
+│   │   └── MessageBubble.swift         # Message bubble
+│   ├── Profile/
+│   │   ├── ProfileView.swift           # User profile
+│   │   └── ProductCardSmall.swift      # Small product card
+│   └── AddProduct/
+│       └── AddProductView.swift        # Add product form
+└── ViewModels/
+└── DataManager.swift       # Application data management
+```
+## Code Style
+
+When developing the project, follow these style rules:
+
+1. Use CamelCase for type names and PascalCase for variable and function names
+2. Add comments to complex code sections
+3. Group related properties and methods
+4. Use extensions to separate functionality
+5. Follow SOLID principles
+
+## Development Process
+
+1. Create a new branch for your task:
+```bash
+   git checkout -b feature/your-feature-name
+```
+
+2. Make the necessary changes and test them
+3. Create a commit with a descriptive message:
+   bash
+
+```bash
+git commit -m "Add feature: your feature description"
+```
+4. Push the changes to the repository:
+```bash
+git push origin feature/your-feature-name
+```
+5. Create a Pull Request on GitHub
+   
