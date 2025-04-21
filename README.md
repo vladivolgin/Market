@@ -201,4 +201,48 @@ git commit -m "Add feature: your feature description"
 git push origin feature/your-feature-name
 ```
 5. Create a Pull Request on GitHub
-   
+
+## Testing
+For testing, use:
+Unit tests for logic and data models
+UI tests for the user interface
+Manual testing on various devices
+## Performance Recommendations
+1. Use LazyVStack and LazyHGrid for large lists
+2. Cache images and other resources
+3. Avoid heavy operations on the main thread
+4. Use asynchronous operations for network requests
+## Resources for Developers
+SwiftUI Documentation
+Combine Documentation
+Human Interface Guidelines
+
+## API Documentation
+```markdown
+# API Documentation
+
+## DataManager
+
+`DataManager` is the main class for managing application data. It provides methods for working with products, chats, and users.
+
+### Properties
+
+| Property | Type | Description |
+|----------|-----|-------------|
+| products | `[Product]` | List of products |
+| chats | `[Chat]` | List of chats |
+| userProfile | `User?` | Current user profile |
+
+### Methods
+
+#### `fetchProducts()`
+
+Loads the list of products.
+
+**Returns:** Void
+
+**Usage Example:**
+```swift
+dataManager.fetchProducts()
+addProduct(_ product: Product)
+```
