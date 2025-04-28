@@ -251,10 +251,43 @@ git push origin feature/your-feature-name
 5. Create a Pull Request on GitHub
 
 ## Testing
-For testing, use:
-Unit tests for logic and data models
-UI tests for the user interface
-Manual testing on various devices
+
+### Model Tests
+Our application includes comprehensive test coverage for core models:
+
+#### User Model Tests
+- Authentication validation
+- User profile data integrity
+- Privacy settings functionality
+- Account permissions verification
+
+#### Message Model Tests
+- Message creation and delivery
+- End-to-end encryption verification
+- Message status tracking (sent, delivered, read)
+- Attachment handling and validation
+
+#### Product Model Tests
+- Product listing creation and validation
+- Price calculation and formatting
+- Category and tag association
+- Search indexing verification
+
+#### Chat Model Tests
+- Chat session creation and management
+- Participant handling and permissions
+- Message threading and organization
+- Chat history retention policies
+
+### UI Tests
+Our UI testing suite ensures consistent user experience:
+
+- Component rendering tests for all major UI elements
+- User flow validation for critical paths (listing creation, messaging, etc.)
+- Responsive design verification across device sizes
+- Accessibility compliance testing
+- Performance benchmarking for UI interactions
+
 ## Performance Recommendations
 1. Use LazyVStack and LazyHGrid for large lists
 2. Cache images and other resources
