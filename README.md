@@ -253,7 +253,7 @@ git push origin feature/your-feature-name
 ## Testing
 
 ### Model Tests
-Our application includes comprehensive test coverage for core models:
+My application includes comprehensive test coverage for core models:
 
 #### User Model Tests
 - Authentication validation
@@ -280,7 +280,7 @@ Our application includes comprehensive test coverage for core models:
 - Chat history retention policies
 
 ### UI Tests
-Our UI testing suite ensures consistent user experience:
+My UI testing suite ensures consistent user experience:
 
 - Component rendering tests for all major UI elements
 - User flow validation for critical paths (listing creation, messaging, etc.)
