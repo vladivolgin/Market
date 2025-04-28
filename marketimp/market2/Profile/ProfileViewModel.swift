@@ -6,17 +6,17 @@ class ProfileViewModel: ObservableObject {
     
     init(user: User = User.example) {
         self.user = user
-        // В реальном приложении здесь будет загрузка данных с сервера
+        // In a future application, data will be downloaded from the server here.
         self.loadUserProducts()
     }
     
     private func loadUserProducts() {
-        // Имитация загрузки товаров пользователя
+        // Simulate loading of user's products
         self.userProducts = Product.examples.filter { $0.sellerId == user.id }
     }
     
     func signOut() {
-        // Здесь будет логика выхода из аккаунта
-        print("Пользователь вышел из аккаунта")
+        // This is where the logic for logging out of the account.
+        print("User signed out")
     }
 }

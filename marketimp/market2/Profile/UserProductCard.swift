@@ -5,7 +5,7 @@ struct UserProductCard: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Изображение товара
+            // Product image
             ZStack {
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
@@ -18,7 +18,7 @@ struct UserProductCard: View {
                     .foregroundColor(.gray)
             }
             
-            // Информация о товаре
+            // Product information
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.title)
                     .font(.subheadline)
@@ -54,16 +54,16 @@ struct UserProductCard: View {
     }
 }
 
-// Расширение для локализованных строк статуса товара
+// Extension for localized product status strings
 extension ProductStatus {
     var localizedString: String {
         switch self {
         case .active:
-            return "Активен"
+            return "Active"
         case .sold:
-            return "Продан"
+            return "Sold"
         case .reserved:
-            return "Зарезервирован"
+            return "Reserved"
         }
     }
 }

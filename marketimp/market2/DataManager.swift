@@ -2,48 +2,48 @@ import SwiftUI
 import Combine
 
 class DataManager: ObservableObject {
-    // Опубликованные свойства
+    // Published properties
     @Published var products: [Product] = []
     @Published var chats: [Chat] = []
     @Published var userProfile: User?
     
     init() {
-        // Инициализация с тестовыми данными
+        // Initialization with test data
         products = Product.examples
         
-        // Устанавливаем тестового пользователя
+        // Set test user
         userProfile = User.example
         
-        // Загружаем чаты для текущего пользователя
+        // Load chats for current user
         if let userId = userProfile?.id {
             chats = Chat.getChatsForUser(userId: userId)
         }
     }
     
-    // Методы для работы с данными
+    // Methods for working with data
     func fetchProducts() {
-        // В реальном приложении здесь будет загрузка данных из API или базы данных
-        // Для тестирования используем примеры
+        // In a future app, this would load data from an API or database
+        // For testing, we use examples
         products = Product.examples
     }
     
     func addProduct(_ product: Product) {
         products.append(product)
-        // Здесь может быть код для сохранения товара в базу данных или отправки на сервер
+        // Here could be code for saving the product to a database or sending to a server
     }
     
     func createChat(with otherUser: User) -> Chat? {
         guard let currentUser = userProfile else { return nil }
         
-        // Создаем ID чата, сортируя ID пользователей и соединяя их
+        // Create chat ID by sorting user IDs and joining them
         let chatId = [currentUser.id, otherUser.id].sorted().joined(separator: "_")
         
-        // Проверяем, существует ли уже чат с этим ID
+        // Check if a chat with this ID already exists
         if let existingChat = chats.first(where: { $0.id == chatId }) {
             return existingChat
         }
         
-        // Создаем новый чат
+        // Create a new chat
         let newChat = Chat(
             id: chatId,
             participants: [currentUser.id, otherUser.id],
@@ -57,10 +57,10 @@ class DataManager: ObservableObject {
     func sendMessage(content: String, to receiverId: String) {
         guard let currentUser = userProfile else { return }
         
-        // Создаем ID чата
+        // Create chat ID
         let chatId = [currentUser.id, receiverId].sorted().joined(separator: "_")
         
-        // Создаем новое сообщение
+        // Create a new message
         let newMessage = Message(
             id: UUID().uuidString,
             senderId: currentUser.id,
@@ -70,12 +70,12 @@ class DataManager: ObservableObject {
             isRead: false
         )
         
-        // Находим индекс чата или создаем новый
+        // Find chat index or create a new one
         if let index = chats.firstIndex(where: { $0.id == chatId }) {
-            // Обновляем последнее сообщение в чате
+            // Update the last message in the chat
             chats[index].lastMessage = newMessage
         } else {
-            // Создаем новый чат
+            // Create a new chat
             let newChat = Chat(
                 id: chatId,
                 participants: [currentUser.id, receiverId],
@@ -84,34 +84,34 @@ class DataManager: ObservableObject {
             chats.append(newChat)
         }
         
-        // Здесь должна быть логика для сохранения сообщения в базе данных или отправки на сервер
+        // Here should be logic for saving the message to a database or sending to a server
     }
     
-    // Получение всех сообщений для конкретного чата
+    // Get all messages for a specific chat
     func getMessages(for chatId: String) -> [Message] {
-        // В реальном приложении здесь будет запрос к базе данных
-        // Для тестирования используем примеры сообщений
+        // In a future app, this would be a database query
+        // For testing, we use example messages
         return Message.examples.filter { message in
             let participants = chatId.split(separator: "_").map(String.init)
             return (participants.contains(message.senderId) && participants.contains(message.receiverId))
         }.sorted { $0.timestamp < $1.timestamp }
     }
     
-    // Получение пользователя по ID
+    // Get user by ID
     func getUser(id: String) -> User? {
-        // В реальном приложении здесь будет запрос к базе данных
-        // Для тестирования возвращаем пример пользователя
+        // In a future app, this would be a database query
+        // For testing, we return an example user
         if id == userProfile?.id {
             return userProfile
         }
-        return User.example // В реальном приложении здесь будет поиск пользователя по ID
+        return User.example // In a real app, this would search for a user by ID
     }
     
-    // Получение другого участника чата
+    // Get the other participant in a chat
     func getOtherParticipant(in chat: Chat) -> User? {
         guard let currentUserId = userProfile?.id else { return nil }
         
-        // Находим ID другого участника
+        // Find the ID of the other participant
         if let otherUserId = chat.participants.first(where: { $0 != currentUserId }) {
             return getUser(id: otherUserId)
         }
@@ -119,10 +119,10 @@ class DataManager: ObservableObject {
         return nil
     }
     
-    // Получение продавца для товара
+    // Get seller for a product
     func getSeller(for product: Product) -> User? {
-        // В реальном приложении здесь будет запрос к базе данных
-        // Для тестирования используем пример пользователя
+        // In a future app, this would be a database query
+        // For testing, we use an example user
         return User.example
     }
 }

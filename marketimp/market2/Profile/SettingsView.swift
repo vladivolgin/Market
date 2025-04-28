@@ -4,57 +4,57 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var notificationsEnabled = true
     @State private var darkModeEnabled = false
-    @State private var language = "Русский"
+    @State private var language = "English"
     
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Основные")) {
-                    Toggle("Уведомления", isOn: $notificationsEnabled)
-                    Toggle("Темная тема", isOn: $darkModeEnabled)
+                Section(header: Text("General")) {
+                    Toggle("Notifications", isOn: $notificationsEnabled)
+                    Toggle("Dark Mode", isOn: $darkModeEnabled)
                 }
                 
-                Section(header: Text("Язык")) {
-                    Picker("Язык приложения", selection: $language) {
-                        Text("Русский").tag("Русский")
+                Section(header: Text("Language")) {
+                    Picker("App Language", selection: $language) {
                         Text("English").tag("English")
+                        Text("Russian").tag("Russian")
                     }
                 }
                 
-                Section(header: Text("Конфиденциальность")) {
-                    NavigationLink(destination: Text("Политика конфиденциальности")) {
-                        Text("Политика конфиденциальности")
+                Section(header: Text("Privacy")) {
+                    NavigationLink(destination: Text("Privacy Policy")) {
+                        Text("Privacy Policy")
                     }
                     
-                    NavigationLink(destination: Text("Условия использования")) {
-                        Text("Условия использования")
+                    NavigationLink(destination: Text("Terms of Use")) {
+                        Text("Terms of Use")
                     }
                 }
                 
-                Section(header: Text("Данные")) {
-                    Button("Очистить кэш") {
-                        // Здесь будет логика очистки кэша
+                Section(header: Text("Data")) {
+                    Button("Clear Cache") {
+                        // Cache clearing logic will be here
                     }
                     .foregroundColor(.blue)
                     
-                    Button("Удалить аккаунт") {
-                        // Здесь будет логика удаления аккаунта
+                    Button("Delete Account") {
+                        // Account deletion logic will be here
                     }
                     .foregroundColor(.red)
                 }
                 
                 Section {
-                    Text("Версия приложения: 1.0.0")
+                    Text("App Version: 1.0.0")
                         .foregroundColor(.gray)
                         .font(.footnote)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
-            .navigationTitle("Настройки")
+            .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Готово") {
+                    Button("Done") {
                         dismiss()
                     }
                 }

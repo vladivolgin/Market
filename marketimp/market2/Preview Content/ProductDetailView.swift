@@ -9,7 +9,7 @@ struct ProductDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // Галерея изображений или заглушка, если изображений нет
+                // Placeholder because now no images are available
                 if product.imageURLs.isEmpty {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
@@ -20,10 +20,10 @@ struct ProductDetailView: View {
                                 .font(.largeTitle)
                         )
                 } else {
-                    // В реальном приложении здесь будет галерея изображений
+                    // In the future application, there will be a gallery of images here.
                     TabView(selection: $currentImageIndex) {
                         ForEach(0..<product.imageURLs.count, id: \.self) { index in
-                            // Заглушка для изображения
+                            // Placeholder for an image
                             Rectangle()
                                 .fill(Color.gray.opacity(0.3))
                                 .overlay(
@@ -39,7 +39,7 @@ struct ProductDetailView: View {
                     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 }
                 
-                // Информация о товаре
+                // Product info
                 VStack(alignment: .leading, spacing: 8) {
                     Text(product.title)
                         .font(.title)
@@ -74,7 +74,7 @@ struct ProductDetailView: View {
                     
                     Divider()
                     
-                    Text("Описание")
+                    Text("Bio")
                         .font(.headline)
                     
                     Text(product.description)
@@ -83,17 +83,17 @@ struct ProductDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // Информация о продавце
+                // Seller info
                 VStack(alignment: .leading, spacing: 8) {
                     Divider()
                     
-                    Text("Продавец")
+                    Text("Seller")
                         .font(.headline)
                     
                     if let seller = dataManager.getUser(id: product.sellerId) {
                         HStack {
                             if let profileImageURL = seller.profileImageURL {
-                                // В реальном приложении здесь будет загрузка изображения по URL
+                                // In the future application, an image will be loaded from a URL here.
                                 Image(systemName: "person.circle.fill")
                                     .resizable()
                                     .frame(width: 50, height: 50)
@@ -120,21 +120,21 @@ struct ProductDetailView: View {
                             }
                         }
                     } else {
-                        Text("Информация о продавце недоступна")
+                        Text("Seller info is unavailible")
                             .foregroundColor(.gray)
                     }
                 }
                 .padding(.horizontal)
                 
-                // Кнопка "Написать продавцу"
+                // “Write to seller” button
                 Button(action: {
                     if let seller = dataManager.getUser(id: product.sellerId) {
-                        // Создаем чат с продавцом
+                        // Creating a chat with a seller
                         let _ = dataManager.createChat(with: seller)
-                        // Здесь можно добавить навигацию к чату
+                        // Chat navigation
                     }
                 }) {
-                    Text("Написать продавцу")
+                    Text("Contact the seller")
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)

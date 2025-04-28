@@ -7,31 +7,31 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            // Вкладка Маркет
+            // Marketplace Tab
             MarketplaceView()
                 .tabItem {
-                    Label("Маркет", systemImage: "bag")
+                    Label("Market", systemImage: "bag")
                 }
                 .tag(0)
             
-            // Вкладка Сообщения
+            // Messages Tab
             ChatsListView()
                 .tabItem {
-                    Label("Сообщения", systemImage: "message")
+                    Label("Messages", systemImage: "message")
                 }
                 .tag(1)
             
-            // Вкладка Добавить
+            // Add Tab
             AddTabView(showingAddProduct: $showingAddProduct)
                 .tabItem {
-                    Label("Добавить", systemImage: "plus.circle.fill")
+                    Label("Add", systemImage: "plus.circle.fill")
                 }
                 .tag(2)
             
-            // Вкладка Профиль
+            // Profile Tab
             ProfileView()
                 .tabItem {
-                    Label("Профиль", systemImage: "person")
+                    Label("Profile", systemImage: "person")
                 }
                 .tag(3)
         }
@@ -41,7 +41,7 @@ struct ContentView: View {
     }
 }
 
-// Вспомогательное представление для вкладки "Добавить"
+// Helper view for the "Add" tab
 struct AddTabView: View {
     @Binding var showingAddProduct: Bool
     
@@ -55,13 +55,13 @@ struct AddTabView: View {
                     .frame(width: 80, height: 80)
                     .foregroundColor(.blue)
                 
-                Text("Добавить новый товар")
+                Text("Add New Item")
                     .font(.headline)
                 
                 Button(action: {
                     showingAddProduct = true
                 }) {
-                    Text("Нажмите, чтобы добавить")
+                    Text("Tap to Add")
                         .font(.subheadline)
                         .foregroundColor(.white)
                         .padding()

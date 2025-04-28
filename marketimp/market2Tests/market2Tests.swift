@@ -1,9 +1,4 @@
-//
-//  market2Tests.swift
-//  market2Tests
-//
-//  Created by Vlad Ivolgin on 19.04.25.
-//
+
 
 import Testing
 @testable import market2

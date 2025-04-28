@@ -6,18 +6,18 @@ class ViewModel: ObservableObject {
     
     init(user: User = User.example) {
         self.user = user
-        // В реальном приложении здесь будет загрузка данных с сервера
+        // In a future application, data will be downloaded from the server here.
         self.loadUserProducts()
     }
     
     private func loadUserProducts() {
-        // Имитация загрузки товаров пользователя
+        // Simulation of user product downloads
         self.userProducts = Product.examples.filter { $0.sellerId == user.id }
     }
     
     func signOut() {
-        // Здесь будет логика выхода из аккаунта
-        print("Пользователь вышел из аккаунта")
+        // Here is the logic for logging out of account.
+        print("User signed out.")
     }
 }
 

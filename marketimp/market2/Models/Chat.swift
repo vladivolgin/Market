@@ -5,11 +5,11 @@ struct Chat: Identifiable {
     var participants: [String]
     var lastMessage: Message?
     
-    // Для тестирования
+    // For testing
     static func getChatsForUser(userId: String) -> [Chat] {
         let messages = Message.examples
         
-        // Группируем сообщения по участникам чата
+        // Groups messages by chat participants
         var chatDictionary: [String: [Message]] = [:]
         
         for message in messages {
@@ -25,7 +25,7 @@ struct Chat: Identifiable {
             }
         }
         
-        // Создаем чаты из сгруппированных сообщений
+        // Creates chats from grouped messages
         var chats: [Chat] = []
         
         for (chatId, chatMessages) in chatDictionary {
@@ -41,7 +41,7 @@ struct Chat: Identifiable {
             chats.append(chat)
         }
         
-        // Сортируем чаты по времени последнего сообщения
+        // Sorts chats by time of last messages
         return chats.sorted {
             ($0.lastMessage?.timestamp ?? Date.distantPast) > ($1.lastMessage?.timestamp ?? Date.distantPast)
         }

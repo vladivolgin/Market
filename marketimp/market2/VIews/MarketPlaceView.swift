@@ -91,9 +91,9 @@ struct ProductCard: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Изображение товара
+            // Product image
             if let imageURL = product.imageURLs.first {
-                // В реальном приложении здесь будет загрузка изображения по URL
+                // In the future application, an image will be loaded from a URL here.
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
                     .frame(height: 200)
@@ -111,7 +111,7 @@ struct ProductCard: View {
                     )
             }
             
-            // Информация о товаре
+            // Product info
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.title)
                     .font(.headline)
@@ -125,7 +125,7 @@ struct ProductCard: View {
                     Image(systemName: "person.circle")
                         .foregroundColor(.gray)
                     
-                    // Получаем информацию о продавце
+                    // Getting seller info
                     if let seller = dataManager.getUser(id: product.sellerId) {
                         Text(seller.username)
                             .font(.caption)
@@ -143,7 +143,7 @@ struct ProductCard: View {
                                 .foregroundColor(.gray)
                         }
                     } else {
-                        Text("Неизвестный продавец")
+                        Text("Uknown seller")
                             .font(.caption)
                             .foregroundColor(.gray)
                     }

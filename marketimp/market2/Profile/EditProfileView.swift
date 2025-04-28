@@ -15,7 +15,7 @@ struct EditProfileView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Фото профиля")) {
+                Section(header: Text("Profile pictures")) {
                     HStack {
                         Spacer()
                         
@@ -45,7 +45,7 @@ struct EditProfileView: View {
                             alignment: .bottomTrailing
                         )
                         .onTapGesture {
-                            // Здесь будет логика выбора фото
+                            // Here will be logic of picking an image
                         }
                         
                         Spacer()
@@ -53,20 +53,20 @@ struct EditProfileView: View {
                     .padding(.vertical, 10)
                 }
                 
-                Section(header: Text("Личная информация")) {
-                    TextField("Имя пользователя", text: $username)
+                Section(header: Text("Private data")) {
+                    TextField("Username", text: $username)
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                 }
                 
                 Section {
-                    Button("Сохранить изменения") {
-                        // Обновляем данные пользователя
+                    Button("Save") {
+                        // Update userdata
                         user.username = username
                         user.email = email
                         
-                        // В реальном приложении здесь будет отправка данных на сервер
+                        // In a future application, data will be sent to the server here.
                         
                         dismiss()
                     }
@@ -74,11 +74,11 @@ struct EditProfileView: View {
                     .foregroundColor(.blue)
                 }
             }
-            .navigationTitle("Редактировать профиль")
+            .navigationTitle("Change profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Отмена") {
+                    Button("Cancel") {
                         dismiss()
                     }
                 }

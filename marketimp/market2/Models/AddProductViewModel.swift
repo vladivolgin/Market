@@ -5,16 +5,16 @@ class AddProductViewModel: ObservableObject {
     @Published var title = ""
     @Published var price = ""
     @Published var description = ""
-    @Published var category = "Электроника"
-    @Published var condition = "Отличное"
+    @Published var category = "Techs"
+    @Published var condition = "great"
     @Published var location = ""
     @Published var selectedImages: [UIImage] = []
     @Published var isLoading = false
     @Published var showingSuccessAlert = false
     @Published var errorMessage: String?
     
-    let categories = ["Электроника", "Одежда и обувь", "Книги", "Мебель", "Спорт", "Другое"]
-    let conditions = ["Новое", "Отличное", "Хорошее", "Удовлетворительное"]
+    let categories = ["Techs", "Clothes", "Books", "Furniture", "Sport", "Others"]
+    let conditions = ["New", "Great", "Good", "Alright"]
     
     var isFormValid: Bool {
         !title.isEmpty &&
@@ -29,27 +29,27 @@ class AddProductViewModel: ObservableObject {
         
         isLoading = true
         
-        // Имитация загрузки на сервер
+        // Simulate uploading to the server
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
             guard let self = self else { return }
             
-            // Создаем новый товар
+            // Creating a new product
             let newProduct = Product(
                 id: UUID().uuidString,
-                sellerId: "user1", // В реальном приложении это будет ID текущего пользователя
+                sellerId: "user1", // In the future application, this will be the ID of the current user
                 title: self.title,
                 description: self.description,
                 price: Double(self.price) ?? 0,
                 category: self.category,
                 condition: self.condition,
                 location: self.location,
-                imageURLs: [], // В реальном приложении здесь будут URL загруженных изображений
+                imageURLs: [], // In the future application, the URLs of the uploaded images will be displayed here.
                 status: .active,
                 createdAt: Date()
             )
             
-            // В реальном приложении здесь будет код для сохранения товара на сервере
-            print("Товар добавлен: \(newProduct.title)")
+            //  In the future application, there will be code here to save the product on the server.
+            print("Item added: \(newProduct.title)")
             
             self.isLoading = false
             self.showingSuccessAlert = true
@@ -60,8 +60,8 @@ class AddProductViewModel: ObservableObject {
         title = ""
         price = ""
         description = ""
-        category = "Электроника"
-        condition = "Отличное"
+        category = "Tech"
+        condition = "Great"
         location = ""
         selectedImages = []
     }

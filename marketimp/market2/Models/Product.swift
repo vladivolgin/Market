@@ -13,17 +13,17 @@ struct Product: Identifiable, Codable {
     var status: ProductStatus
     var createdAt: Date
     
-    // Для тестирования
+    // For testing
     static let examples = [
         Product(
             id: "product1",
             sellerId: "user1",
             title: "iPhone 13 Pro",
-            description: "Отличное состояние, полный комплект, на гарантии",
-            price: 65000,
-            category: "Электроника",
-            condition: "Отличное",
-            location: "Москва",
+            description: "Excellent condition, complete set, under warranty",
+            price: 650,
+            category: "Techs",
+            condition: "Great",
+            location: "Berlin",
             imageURLs: [],
             status: .active,
             createdAt: Date()
@@ -31,12 +31,12 @@ struct Product: Identifiable, Codable {
         Product(
             id: "product2",
             sellerId: "user2",
-            title: "Кроссовки Nike Air Max",
-            description: "Размер 42, почти новые",
-            price: 5000,
-            category: "Одежда и обувь",
-            condition: "Хорошее",
-            location: "Санкт-Петербург",
+            title: "Nike Air Max",
+            description: "Size 42, almost new",
+            price: 50,
+            category: "Clothes",
+            condition: "Good",
+            location: "Frankfurt am Main",
             imageURLs: [],
             status: .active,
             createdAt: Date()
@@ -44,12 +44,12 @@ struct Product: Identifiable, Codable {
         Product(
             id: "product3",
             sellerId: "user1",
-            title: "Книга 'Мастер и Маргарита'",
-            description: "Издание 2020 года, в твердом переплете",
-            price: 800,
-            category: "Книги",
-            condition: "Новое",
-            location: "Москва",
+            title: "Book'",
+            description: "2020 edition, hardcover",
+            price: 8,
+            category: "Books",
+            condition: "New",
+            location: "Dortmund",
             imageURLs: [],
             status: .active,
             createdAt: Date()

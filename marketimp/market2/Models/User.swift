@@ -8,10 +8,10 @@ struct User: Identifiable, Codable {
     var rating: Double
     var createdAt: Date
     
-    // Для тестирования
+    // For testing
     static let example = User(
         id: "user1",
-        username: "Алексей",
+        username: "Alex",
         email: "alex@example.com",
         profileImageURL: "https://example.com/profile.jpg",
         rating: 4.8,

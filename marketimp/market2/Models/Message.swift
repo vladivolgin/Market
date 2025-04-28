@@ -8,13 +8,13 @@ struct Message: Identifiable, Codable {
     var timestamp: Date
     var isRead: Bool
     
-    // Для тестирования
+    // For testing
     static let examples = [
         Message(
             id: "msg1",
             senderId: "user2",
             receiverId: "user1",
-            content: "Привет! Товар еще доступен?",
+            content: "Hello! Is the product still available?",
             timestamp: Date().addingTimeInterval(-3600 * 24),
             isRead: true
         ),
@@ -22,7 +22,7 @@ struct Message: Identifiable, Codable {
             id: "msg2",
             senderId: "user1",
             receiverId: "user2",
-            content: "Да, конечно! Вы можете его забрать сегодня.",
+            content: "Yes, of course! You can pick it up today.",
             timestamp: Date().addingTimeInterval(-3600 * 23),
             isRead: true
         ),
@@ -30,7 +30,7 @@ struct Message: Identifiable, Codable {
             id: "msg3",
             senderId: "user2",
             receiverId: "user1",
-            content: "Отлично! Во сколько вам удобно?",
+            content: "Great! What time would be convenient for you?",
             timestamp: Date().addingTimeInterval(-3600 * 22),
             isRead: false
         ),
@@ -38,7 +38,7 @@ struct Message: Identifiable, Codable {
             id: "msg4",
             senderId: "user3",
             receiverId: "user1",
-            content: "Здравствуйте, интересует книга. Она в хорошем состоянии?",
+            content: "Hello, I am interested in the book. Is it in good condition?",
             timestamp: Date().addingTimeInterval(-3600 * 12),
             isRead: true
         ),
@@ -46,7 +46,7 @@ struct Message: Identifiable, Codable {
             id: "msg5",
             senderId: "user1",
             receiverId: "user3",
-            content: "Добрый день! Да, книга как новая, страницы все целые.",
+            content: "Good afternoon! Yes, the book is like new, all the pages are intact.",
             timestamp: Date().addingTimeInterval(-3600 * 11),
             isRead: false
         )

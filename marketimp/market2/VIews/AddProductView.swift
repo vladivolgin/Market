@@ -7,41 +7,41 @@ struct AddProductView: View {
     @State private var title = ""
     @State private var description = ""
     @State private var price = ""
-    @State private var category = "Электроника"
-    @State private var condition = "Отличное"
+    @State private var category = "Electronics"
+    @State private var condition = "Excellent"
     @State private var location = ""
     @State private var images: [UIImage] = []
     @State private var showingImagePicker = false
     
-    let categories = ["Электроника", "Одежда и обувь", "Книги", "Спорт и отдых", "Мебель", "Другое"]
-    let conditions = ["Новое", "Отличное", "Хорошее", "Удовлетворительное"]
+    let categories = ["Electronics", "Clothing & Shoes", "Books", "Sports & Leisure", "Furniture", "Other"]
+    let conditions = ["New", "Excellent", "Good", "Fair"]
     
     var body: some View {
         NavigationView {
             Form {
-                // Секция с основной информацией
-                Section(header: Text("Информация о товаре")) {
-                    TextField("Название", text: $title)
+                // Section with main information
+                Section(header: Text("Product Information")) {
+                    TextField("Title", text: $title)
                     
-                    TextField("Цена", text: $price)
+                    TextField("Price", text: $price)
                         .keyboardType(.decimalPad)
                     
-                    Picker("Категория", selection: $category) {
+                    Picker("Category", selection: $category) {
                         ForEach(categories, id: \.self) {
                             Text($0)
                         }
                     }
                     
-                    Picker("Состояние", selection: $condition) {
+                    Picker("Condition", selection: $condition) {
                         ForEach(conditions, id: \.self) {
                             Text($0)
                         }
                     }
                     
-                    TextField("Местоположение", text: $location)
+                    TextField("Location", text: $location)
                     
                     VStack(alignment: .leading) {
-                        Text("Описание")
+                        Text("Description")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         
@@ -50,18 +50,18 @@ struct AddProductView: View {
                     }
                 }
                 
-                // Секция с фотографиями
-                Section(header: Text("Фотографии")) {
+                // Section with photos
+                Section(header: Text("Photos")) {
                     Button(action: {
                         showingImagePicker = true
                     }) {
                         HStack {
                             Image(systemName: "photo")
-                            Text("Добавить фотографии")
+                            Text("Add Photos")
                         }
                     }
                     
-                    // Отображение выбранных изображений
+                    // Display selected images
                     if !images.isEmpty {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
@@ -90,12 +90,12 @@ struct AddProductView: View {
                     }
                 }
                 
-                // Кнопка добавления товара
+                // Add product button
                 Section {
                     Button(action: {
                         addProduct()
                     }) {
-                        Text("Добавить товар")
+                        Text("Add Product")
                             .frame(maxWidth: .infinity)
                             .foregroundColor(.white)
                             .padding()
@@ -105,18 +105,18 @@ struct AddProductView: View {
                     .disabled(!isFormValid)
                 }
             }
-            .navigationTitle("Добавить товар")
-            .navigationBarItems(trailing: Button("Отмена") {
+            .navigationTitle("Add Product")
+            .navigationBarItems(trailing: Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             })
             .sheet(isPresented: $showingImagePicker) {
-                // Здесь будет ImagePicker для выбора изображений
-                // В реальном приложении вы бы использовали UIViewControllerRepresentable для UIImagePickerController
-                // Для простоты мы используем заглушку
-                Text("Здесь будет выбор изображений")
+                // Here will be ImagePicker for selecting images
+                // In a real app, you would use UIViewControllerRepresentable for UIImagePickerController
+                // For simplicity, we're using a placeholder
+                Text("Image selection will be here")
                     .padding()
                     .onTapGesture {
-                        // Добавляем тестовое изображение
+                        // Adding a test image
                         let image = UIImage(systemName: "photo") ?? UIImage()
                         images.append(image)
                         showingImagePicker = false
@@ -125,7 +125,7 @@ struct AddProductView: View {
         }
     }
     
-    // Проверка валидности формы
+    // Form validation check
     private var isFormValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
@@ -133,14 +133,14 @@ struct AddProductView: View {
         !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     
-    // Добавление нового товара
+    // Adding a new product
     private func addProduct() {
         guard let priceValue = Double(price),
               let currentUser = dataManager.userProfile else {
             return
         }
         
-        // Создаем новый товар
+        // Create a new product
         let newProduct = Product(
             id: UUID().uuidString,
             sellerId: currentUser.id,
@@ -150,15 +150,15 @@ struct AddProductView: View {
             category: category,
             condition: condition,
             location: location,
-            imageURLs: [], // В реальном приложении здесь будут URL загруженных изображений
+            imageURLs: [], // In a real app, this would be URLs of uploaded images
             status: .active,
             createdAt: Date()
         )
         
-        // Добавляем товар в список
+        // Add the product to the list
         dataManager.addProduct(newProduct)
         
-        // Закрываем экран
+        // Close the screen
         presentationMode.wrappedValue.dismiss()
     }
 }

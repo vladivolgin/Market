@@ -7,11 +7,11 @@ struct ProfileView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    // Аватар и имя пользователя
+                    // User avatar and name
                     VStack {
                         if let user = dataManager.userProfile {
                             if let profileImageURL = user.profileImageURL {
-                                // В реальном приложении здесь будет загрузка изображения по URL
+                                // In a real app, this would load the image from URL
                                 Image(systemName: "person.circle.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
@@ -39,7 +39,7 @@ struct ProfileView: View {
                                     .font(.headline)
                             }
                             
-                            Text("На платформе с \(formattedDate(user.createdAt))")
+                            Text("On platform since \(formattedDate(user.createdAt))")
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         } else {
@@ -50,14 +50,14 @@ struct ProfileView: View {
                                 .foregroundColor(.gray)
                                 .padding()
                             
-                            Text("Гость")
+                            Text("Guest")
                                 .font(.title)
                                 .fontWeight(.bold)
                             
                             Button(action: {
-                                // Действие для входа в аккаунт
+                                // Action for logging in
                             }) {
-                                Text("Войти")
+                                Text("Log In")
                                     .font(.headline)
                                     .foregroundColor(.white)
                                     .padding()
@@ -74,9 +74,9 @@ struct ProfileView: View {
                     .shadow(radius: 2)
                     .padding(.horizontal)
                     
-                    // Мои товары
+                    // My items
                     VStack(alignment: .leading) {
-                        Text("Мои товары")
+                        Text("My Items")
                             .font(.headline)
                             .padding(.horizontal)
                         
@@ -84,7 +84,7 @@ struct ProfileView: View {
                             let userProducts = dataManager.products.filter { $0.sellerId == userId }
                             
                             if userProducts.isEmpty {
-                                Text("У вас пока нет товаров")
+                                Text("You don't have any items yet")
                                     .foregroundColor(.gray)
                                     .padding()
                             } else {
@@ -98,26 +98,26 @@ struct ProfileView: View {
                                 }
                             }
                         } else {
-                            Text("Войдите, чтобы увидеть свои товары")
+                            Text("Log in to see your items")
                                 .foregroundColor(.gray)
                                 .padding()
                         }
                     }
                     .padding(.vertical)
                     
-                    // Настройки
+                    // Settings
                     VStack(alignment: .leading) {
-                        Text("Настройки")
+                        Text("Settings")
                             .font(.headline)
                             .padding(.horizontal)
                         
                         VStack(spacing: 0) {
                             Button(action: {
-                                // Действие для редактирования профиля
+                                // Action for editing profile
                             }) {
                                 HStack {
                                     Image(systemName: "person")
-                                    Text("Редактировать профиль")
+                                    Text("Edit Profile")
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -128,11 +128,11 @@ struct ProfileView: View {
                             Divider()
                             
                             Button(action: {
-                                // Действие для настроек приватности
+                                // Action for privacy settings
                             }) {
                                 HStack {
                                     Image(systemName: "lock")
-                                    Text("Настройки приватности")
+                                    Text("Privacy Settings")
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -143,11 +143,11 @@ struct ProfileView: View {
                             Divider()
                             
                             Button(action: {
-                                // Действие для поддержки
+                                // Action for support
                             }) {
                                 HStack {
                                     Image(systemName: "questionmark.circle")
-                                    Text("Поддержка")
+                                    Text("Support")
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }
@@ -158,11 +158,11 @@ struct ProfileView: View {
                             Divider()
                             
                             Button(action: {
-                                // Действие для выхода из аккаунта
+                                // Action for logging out
                             }) {
                                 HStack {
                                     Image(systemName: "arrow.right.square")
-                                    Text("Выйти")
+                                    Text("Log Out")
                                         .foregroundColor(.red)
                                     Spacer()
                                 }
@@ -177,12 +177,12 @@ struct ProfileView: View {
                 }
                 .padding(.vertical)
             }
-            .navigationTitle("Профиль")
+            .navigationTitle("Profile")
             .background(Color.gray.opacity(0.1).edgesIgnoringSafeArea(.all))
         }
     }
     
-    // Форматирование даты
+    // Date formatting
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -191,15 +191,15 @@ struct ProfileView: View {
     }
 }
 
-// Маленькая карточка товара для отображения в профиле
+// Small product card for display in profile
 struct ProductCardSmall: View {
     let product: Product
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Изображение товара
+            // Product image
             if let imageURL = product.imageURLs.first {
-                // В реальном приложении здесь будет загрузка изображения по URL
+                // In a real app, this would load the image from URL
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
                     .frame(width: 150, height: 150)
@@ -217,7 +217,7 @@ struct ProductCardSmall: View {
                     )
             }
             
-            // Информация о товаре
+            // Product information
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.title)
                     .font(.subheadline)
@@ -227,7 +227,7 @@ struct ProductCardSmall: View {
                     .font(.caption)
                     .foregroundColor(.primary)
                 
-                // Статус товара
+                // Product status
                 Text(statusText(product.status))
                     .font(.caption)
                     .padding(.horizontal, 6)
@@ -244,19 +244,19 @@ struct ProductCardSmall: View {
         .frame(width: 150)
     }
     
-    // Текст статуса товара
+    // Product status text
     private func statusText(_ status: ProductStatus) -> String {
         switch status {
         case .active:
-            return "Активен"
+            return "Active"
         case .sold:
-            return "Продан"
+            return "Sold"
         case .reserved:
-            return "Зарезервирован"
+            return "Reserved"
         }
     }
     
-    // Цвет статуса товара
+    // Product status color
     private func statusColor(_ status: ProductStatus) -> Color {
         switch status {
         case .active:
