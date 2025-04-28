@@ -203,8 +203,25 @@ Market2/
 │   │   └── ProductCardSmall.swift      # Small product card
 │   └── AddProduct/
 │       └── AddProductView.swift        # Add product form
-└── ViewModels/
-└── DataManager.swift       # Application data management
+├── DataManager.swift                   # Application data management
+├── market2Tests/
+│   ├── Models/
+│   │    ├── ChatTests.swift            # Tests for the Chat model
+│   │    ├── MessageTests.swift         # Tests for the Message model
+│   │    ├── ProductTests.swift         # Tests for the Product model
+│   │    └── UserTests.swift            # Tests for the User model
+│   ├── Services/
+│   │    └── DataManagerTests.swift     # Tests for the DataManager
+│   ├── TestHelpers/
+│   │   ├── TestFactories.swift         # Tests for the Descriptions
+│   │   └── XCTestExtensions.swift      # Asynchronous code execution
+│   ├── Utils/
+│   │   └── ExtensionsTests.swift       # Tests for login through email
+│   └── ScreenshotTests.swift
+├── market2tests.swift
+├── market2UITests/
+│      ├── market2UITests.swift         # Ui Tests 
+│      └── market2UITestsLaunchTests.swift
 ```
 ## Code Style
 
