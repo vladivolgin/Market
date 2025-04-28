@@ -6,8 +6,8 @@
 - [Installation](#installation)
 - [Product documentation](#product-documentation)
 - [Project Structure](#project-structure)
+- [Testing](#testing)
 - [Development Process](#development-process)
-- [Function Header Comments](#function-header-comments)
 - [Error Handling Strategy](#error-handling-strategy)
 - [Technical Decision log](#technical-decision-log)
 
@@ -298,96 +298,6 @@ SwiftUI Documentation
 Combine Documentation
 Human Interface Guidelines
 
-## API Documentation
-```markdown
-# API Documentation
-
-## DataManager
-
-`DataManager` is the main class for managing application data. It provides methods for working with products, chats, and users.
-
-### Properties
-
-| Property | Type | Description |
-|----------|-----|-------------|
-| products | `[Product]` | List of products |
-| chats | `[Chat]` | List of chats |
-| userProfile | `User?` | Current user profile |
-
-### Methods
-
-#### `fetchProducts()`
-
-Loads the list of products.
-
-**Returns:** Void
-
-**Usage Example:**
-```swift
-dataManager.fetchProducts()
-addProduct(_ product: Product)
-```
-Adds a new product to the list.
-
-```product```: Product to add
-```Returns```: Void
-
-
-## Usage Example (AI-generated):
-```swift
-let newProduct = Product(
-    id: UUID().uuidString,
-    sellerId: currentUser.id,
-    title: "iPhone 13",
-    description: "Excellent condition",
-    price: 50000,
-    category: "Electronics",
-    condition: "Excellent",
-    location: "Moscow",
-    imageURLs: [],
-    status: .active,
-    createdAt: Date()
-)
-dataManager.addProduct(newProduct)
-```
-```
-createChat(with otherUser: User) -> Chat?
-```
-Creates a new chat with the specified user or returns an existing one.
-
-## Parameters:
-
-```otherUser:``` User to create a chat with
-Returns: Created or existing chat, or nil in case of an error
-
-## Usage Example (AI-generated):
-```swift
-
-if let chat = dataManager.createChat(with: seller) {
-    // Use the chat
-}
-```
-
-```sendMessage(content: String, to receiverId: String)```
-Sends a message to the specified user.
-
-## Parameters:
-```content```: Message text
-```receiverId```: Recipient ID
-
-Returns: Void
-
-## Usage Example (AI-generated):
-```swift
-dataManager.sendMessage(content: "Hello! Is the item still available?", to: "user123")
-getMessages(for chatId: String) -> [Message]
-```
-Gets the list of messages for the specified chat.
-
-```
-I've added "(AI-generated)" to each usage example to clearly indicate that these examples were created by AI and may need to be adjusted for your specific implementation.
-```
-
 ## Error Handling Strategy
 Network Interaction Level: All network errors are handled in API services and converted to NetworkError.
 ```Data Level```: Data-related errors are handled in ```DataManager``` and converted to ```DataError```.
@@ -533,33 +443,6 @@ Group related modifiers
 Add a preview for each View
 Use different device sizes and themes
 
-## Code Documentation
-Header Comments:
-## Code Example(Ai-Generated)
-```swift
-   /// Displays detailed product information
-   ///
-   /// Used to show complete product information,
-   /// including images, description, and action buttons.
-   ///
-   /// - Example:
-   /// ```
-   /// ProductDetailView(product: sampleProduct)
-   /// ```
-   struct ProductDetailView: View {
-       // Code...
-   }
-```
-
-Comments for Complex Code Sections:
-## Code Example(Ai-Generated)
-```swift
-   // Using quicksort algorithm to optimize
-   // performance with large number of items
-   func sortProducts() {
-       // Code...
-   }
-```
 ## Technical Decision log 
 ### Documentation
 
