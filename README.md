@@ -1,6 +1,10 @@
+# GamerMarketplace App
+
+This application is a mobile marketplace designed for users to browse, search, sell items, and interact within a community. It is built using modern iOS development practices with SwiftUI and a Firebase backend.
 
 ## Table of Contents
 - [Features](#features)
+- [Detailed Documentation](#detailed-documentation)
 - [Application Architecture](#application-architecture)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -11,8 +15,7 @@
 - [Error Handling Strategy](#error-handling-strategy)
 - [Technical Decision log](#technical-decision-log)
 
-# Market2
-This app is designed to allow anyone to sell unwanted items safely and without having to worry about revealing any information.
+
 ## Features
 
 - 🛍️ Browse items in a user-friendly interface
@@ -21,6 +24,12 @@ This app is designed to allow anyone to sell unwanted items safely and without h
 - 📱 Modern SwiftUI interface
 - 📦 Convenient addition of new items
 
+## Detailed Documentation
+
+For a more in-depth analysis of specific architectural components, please refer to the following detailed reports:
+
+*   **[NoSQL Project Report](NoSQL_Report.md):** Provides a deep dive into the Firestore database implementation, data modeling decisions, and future scalability plans.
+*   **[Cyber Security Module Report](CyberSecurity_Report.md):** Details the threat model (STRIDE), security measures, and the server-authoritative architecture implemented to protect the application.
 
 ## Application Architecture
 
