@@ -143,16 +143,12 @@ struct AddProductView: View {
         // Create a new product
         let newProduct = Product(
             id: UUID().uuidString,
-            sellerId: currentUser.id,
             title: title,
             description: description,
             price: priceValue,
+            sellerId: currentUser.id,
             category: category,
-            condition: condition,
-            location: location,
-            imageURLs: [], // In a real app, this would be URLs of uploaded images
-            status: .active,
-            createdAt: Date()
+            imageURLs: [] // In a real app, this would be URLs of uploaded images
         )
         
         // Add the product to the list

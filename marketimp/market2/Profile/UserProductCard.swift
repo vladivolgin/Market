@@ -5,7 +5,7 @@ struct UserProductCard: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            // Product image
+            // Product image (оставляем как есть, это заглушка)
             ZStack {
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
@@ -25,45 +25,22 @@ struct UserProductCard: View {
                     .fontWeight(.medium)
                     .lineLimit(1)
                 
-                Text("\(Int(product.price)) ₽")
+                // Используем Double для цены, как в нашей новой модели
+                Text("\(product.price, specifier: "%.2f") $")
                     .font(.headline)
                     .foregroundColor(.primary)
                 
-                Text(product.status.localizedString)
-                    .font(.caption)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(statusColor(product.status))
-                    .foregroundColor(.white)
-                    .cornerRadius(4)
+                // --- ИЗМЕНЕНИЕ ---
+                // Мы полностью удалили блок, который отображал статус,
+                // так как этого поля больше нет в нашей модели Product.
+                
             }
             .frame(width: 120)
         }
         .padding(.bottom, 8)
     }
     
-    private func statusColor(_ status: ProductStatus) -> Color {
-        switch status {
-        case .active:
-            return .green
-        case .sold:
-            return .gray
-        case .reserved:
-            return .orange
-        }
-    }
-}
-
-// Extension for localized product status strings
-extension ProductStatus {
-    var localizedString: String {
-        switch self {
-        case .active:
-            return "Active"
-        case .sold:
-            return "Sold"
-        case .reserved:
-            return "Reserved"
-        }
-    }
+    // --- ИЗМЕНЕНИЕ ---
+    // Вспомогательные функции statusColor и расширение для ProductStatus
+    // были полностью удалены, так как они больше не используются.
 }

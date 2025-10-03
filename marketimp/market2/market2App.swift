@@ -1,9 +1,13 @@
 import SwiftUI
+import FirebaseCore
 
 @main
 struct market2App: App {
-    // Creating an instance of DataManager as a StateObject
     @StateObject private var dataManager = DataManager()
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {

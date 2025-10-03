@@ -37,20 +37,20 @@ class ExtensionsTests: XCTestCase {
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        formatter.currencySymbol = "₽"
+        formatter.currencySymbol = "$"
         formatter.locale = Locale(identifier: "ru_RU")
         
         let formattedPrice = formatter.string(from: NSNumber(value: price))
         
         // Check only for the presence of currency symbol and correct numeric value
         // without binding to a specific separator format
-        XCTAssertTrue(formattedPrice?.contains("₽") ?? false)
+        XCTAssertTrue(formattedPrice?.contains("$") ?? false)
         XCTAssertTrue(formattedPrice?.contains("1") ?? false)
         XCTAssertTrue(formattedPrice?.contains("000") ?? false)
         XCTAssertTrue(formattedPrice?.contains("50") ?? false)
         
         // OR you can use the exact expected value if you're sure about the format
-        // XCTAssertEqual(formattedPrice, "₽1 000,50")
+        // XCTAssertEqual(formattedPrice, "$1 000,50")
     }
     
     // Test string to date conversion

@@ -1,91 +1,89 @@
 import SwiftUI
+import FirebaseAuth
 
 struct ChatView: View {
-    @ObservedObject var viewModel: MessengerViewModel
+    @ObservedObject private var viewModel = MessengerViewModel.shared
     let chat: Chat
-    
+    private var currentUserId: String? { Auth.auth().currentUser?.uid }
+
     var body: some View {
         VStack {
+            // MARK: - Messages List
             ScrollView {
-                ScrollViewReader { scrollView in
-                    LazyVStack(spacing: 12) {
+                ScrollViewReader { proxy in
+                    LazyVStack(spacing: 8) {
                         ForEach(viewModel.messages) { message in
-                            MessageBubble(message: message, isFromCurrentUser: message.senderId == viewModel.currentUserId)
-                                .id(message.id)
+                            MessageBubble(
+                                message: message,
+                                isFromCurrentUser: message.senderId == currentUserId
+                            )
+                            .id(message.id)
                         }
                     }
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                    .onChange(of: viewModel.messages.count) { oldCount, newCount in
-                        if let lastMessage = viewModel.messages.last {
-                            withAnimation {
-                                scrollView.scrollTo(lastMessage.id, anchor: .bottom)
-                            }
-                        }
-                    }
-                    .onAppear {
-                        if let lastMessage = viewModel.messages.last {
-                            scrollView.scrollTo(lastMessage.id, anchor: .bottom)
+                    .padding(.top)
+                    // --- ИСПРАВЛЕННЫЙ БЛОК onChange ---
+                    .onChange(of: viewModel.messages) {
+                        // Auto-scroll to the last message
+                        if let lastMessageId = viewModel.messages.last?.id {
+                            withAnimation { proxy.scrollTo(lastMessageId, anchor: .bottom) }
                         }
                     }
                 }
             }
             
-            // Поле ввода сообщения
-            HStack {
-                TextField("Сообщение", text: $viewModel.newMessageText)
-                    .padding(10)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(20)
-                
-                Button(action: {
-                    viewModel.sendMessage()
-                }) {
-                    Image(systemName: "paperplane.fill")
-                        .foregroundColor(.blue)
-                        .padding(10)
+            // MARK: - Message Input Field
+            VStack(spacing: 4) {
+                HStack {
+                    TextField("Сообщение...", text: $viewModel.newMessageText)
+                        .textFieldStyle(.roundedBorder)
+                        .padding(.leading)
+                    
+                    Button(action: {
+                        viewModel.sendMessage(to: chat.id ?? "")
+                    }) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(viewModel.newMessageText.isEmpty ? .gray : .blue)
+                    }
+                    .padding(.trailing)
+                    .disabled(viewModel.newMessageText.isEmpty)
                 }
-                .disabled(viewModel.newMessageText.isEmpty)
+                
+                if let errorMessage = viewModel.validationError {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .font(.caption)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .transition(.opacity.animation(.easeInOut))
+                }
             }
-            .padding()
+            .padding(.bottom)
         }
-        .navigationTitle(viewModel.getOtherUserName(chat))
+        .navigationTitle(chat.otherParticipantId ?? "Чат")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.loadMessages(for: chat)
+            viewModel.validationError = nil
+            viewModel.fetchMessages(for: chat.id ?? "")
         }
     }
 }
 
+// Вспомогательные View (MessageBubble) остаются без изменений
 struct MessageBubble: View {
     let message: Message
     let isFromCurrentUser: Bool
     
     var body: some View {
         HStack {
-            if isFromCurrentUser {
-                Spacer()
-            }
-            
-            Text(message.content)
+            if isFromCurrentUser { Spacer(minLength: 50) }
+            Text(message.text)
                 .padding(12)
-                .background(isFromCurrentUser ? Color.blue : Color.gray.opacity(0.2))
+                .background(isFromCurrentUser ? .blue : Color(.systemGray5))
                 .foregroundColor(isFromCurrentUser ? .white : .primary)
                 .cornerRadius(16)
-                .frame(maxWidth: 280, alignment: isFromCurrentUser ? .trailing : .leading)
-            
-            if !isFromCurrentUser {
-                Spacer()
-            }
+            if !isFromCurrentUser { Spacer(minLength: 50) }
         }
-    }
-}
-
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = MessengerViewModel()
-        let chat = Chat.getChatsForUser(userId: "user1").first!
-        
-        return ChatView(viewModel: viewModel, chat: chat)
+        .padding(.horizontal)
     }
 }

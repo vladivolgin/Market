@@ -1,64 +1,31 @@
 import Foundation
+import FirebaseFirestoreSwift
 
+// Структура Product, которая ТОЧНО соответствует вашим данным в Firebase
 struct Product: Identifiable, Codable {
-    var id: String
-    var sellerId: String
-    var title: String
-    var description: String
-    var price: Double
-    var category: String
-    var condition: String
-    var location: String
-    var imageURLs: [String]
-    var status: ProductStatus
-    var createdAt: Date
     
-    // For testing
+    // Это свойство будет автоматически заполнено ID документа из Firebase
+    @DocumentID var id: String?
+    
+    // Эти свойства должны точно совпадать с полями в вашей базе данных
+    let title: String
+    let description: String
+    let price: Double // Используем Double для цены, так как в Firebase это Number
+    let sellerId: String
+    let category: String
+    let imageURLs: [String]
+    
+    // --- ВАЖНО ---
+    // Мы временно удалили поля condition, location, status, createdAt,
+    // так как их нет в вашей базе данных, и они вызывают ошибку декодирования.
+    
+    
+    // --- ПРИМЕЧАНИЕ ---
+    // Чтобы этот пример снова работал, его нужно будет обновить,
+    // убрав из него удаленные поля. Но для работы с Firebase он не нужен.
+    /*
     static let examples = [
-        Product(
-            id: "product1",
-            sellerId: "user1",
-            title: "iPhone 13 Pro",
-            description: "Excellent condition, complete set, under warranty",
-            price: 650,
-            category: "Techs",
-            condition: "Great",
-            location: "Berlin",
-            imageURLs: [],
-            status: .active,
-            createdAt: Date()
-        ),
-        Product(
-            id: "product2",
-            sellerId: "user2",
-            title: "Nike Air Max",
-            description: "Size 42, almost new",
-            price: 50,
-            category: "Clothes",
-            condition: "Good",
-            location: "Frankfurt am Main",
-            imageURLs: [],
-            status: .active,
-            createdAt: Date()
-        ),
-        Product(
-            id: "product3",
-            sellerId: "user1",
-            title: "Book'",
-            description: "2020 edition, hardcover",
-            price: 8,
-            category: "Books",
-            condition: "New",
-            location: "Dortmund",
-            imageURLs: [],
-            status: .active,
-            createdAt: Date()
-        )
+        Product( ... )
     ]
-}
-
-enum ProductStatus: String, Codable {
-    case active = "active"
-    case sold = "sold"
-    case reserved = "reserved"
+    */
 }

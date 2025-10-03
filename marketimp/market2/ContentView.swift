@@ -1,79 +1,54 @@
 import SwiftUI
 
+// MARK: - Root View (The Router)
 struct ContentView: View {
-    @EnvironmentObject var dataManager: DataManager
-    @State private var showingAddProduct = false
-    @State private var selectedTab = 0
-    
+    // Создаем AuthManager один раз как источник правды для всего приложения
+    @StateObject private var authManager = AuthManager()
+    // Убедитесь, что вы создаете DataManager здесь, если он нужен всем вашим вью
+    @StateObject private var dataManager = DataManager()
+
     var body: some View {
-        TabView(selection: $selectedTab) {
-            // Marketplace Tab
-            MarketplaceView()
-                .tabItem {
-                    Label("Market", systemImage: "bag")
-                }
-                .tag(0)
-            
-            // Messages Tab
-            ChatsListView()
-                .tabItem {
-                    Label("Messages", systemImage: "message")
-                }
-                .tag(1)
-            
-            // Add Tab
-            AddTabView(showingAddProduct: $showingAddProduct)
-                .tabItem {
-                    Label("Add", systemImage: "plus.circle.fill")
-                }
-                .tag(2)
-            
-            // Profile Tab
-            ProfileView()
-                .tabItem {
-                    Label("Profile", systemImage: "person")
-                }
-                .tag(3)
-        }
-        .sheet(isPresented: $showingAddProduct) {
-            AddProductView()
+        // В зависимости от состояния authManager, показываем либо вход, либо главный экран
+        if authManager.isAuthenticated {
+            MainTabView()
+                .environmentObject(authManager) // Передаем его дальше по иерархии
+                .environmentObject(dataManager)
+        } else {
+            LoginView()
+                .environmentObject(authManager) // Передаем его на экран входа
         }
     }
 }
 
-// Helper view for the "Add" tab
-struct AddTabView: View {
-    @Binding var showingAddProduct: Bool
-    
+// MARK: - Main Application View (Your Original UI)
+// Эта структура просто собирает ваши существующие экраны в TabView.
+// Она не объявляет их заново.
+struct MainTabView: View {
+    @EnvironmentObject var dataManager: DataManager
+    @State private var selectedTab = 0
+
     var body: some View {
-        VStack {
-            Spacer()
+        TabView(selection: $selectedTab) {
+            // Здесь мы ИСПОЛЬЗУЕМ ваши существующие View, а не создаем их копии
+            NewsView()
+                .tabItem { Label("News", systemImage: "newspaper") }
+                .tag(0)
+
+            ForumView()
+                .tabItem { Label("Forum", systemImage: "bubble.left.and.bubble.right") }
+                .tag(1)
+
+            GamerMarketView()
+                .tabItem { Label("Market", systemImage: "gamecontroller") }
+                .tag(2)
             
-            VStack(spacing: 20) {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: 80, height: 80)
-                    .foregroundColor(.blue)
-                
-                Text("Add New Item")
-                    .font(.headline)
-                
-                Button(action: {
-                    showingAddProduct = true
-                }) {
-                    Text("Tap to Add")
-                        .font(.subheadline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-            }
+            ChatsListView()
+                .tabItem { Label("Messages", systemImage: "message") }
+                .tag(3)
             
-            Spacer()
-        }
-        .onTapGesture {
-            showingAddProduct = true
+            ProfileView()
+                .tabItem { Label("Profile", systemImage: "person") }
+                .tag(4)
         }
     }
 }

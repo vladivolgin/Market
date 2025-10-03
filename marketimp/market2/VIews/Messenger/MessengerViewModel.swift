@@ -1,89 +1,128 @@
-import SwiftUI
+import Foundation
+import Firebase
+import Combine
+import FirebaseAuth
+import FirebaseFirestore
 
 class MessengerViewModel: ObservableObject {
-    @Published var chats: [Chat] = []
-    @Published var currentUserId: String = "user1" // В реальном приложении это будет ID авторизованного пользователя
-    @Published var selectedChat: Chat?
-    @Published var messages: [Message] = []
+    static let shared = MessengerViewModel()
+
+    @Published var chats = [Chat]()
+    @Published var messages = [Message]() // Массив для сообщений текущего чата
     @Published var newMessageText: String = ""
-    
-    init() {
-        loadChats()
+    @Published var validationError: String?
+
+    private var db = Firestore.firestore()
+    private var currentUserId: String? { Auth.auth().currentUser?.uid }
+    private var messagesListener: ListenerRegistration?
+    private var chatsListener: ListenerRegistration?
+
+    private init() {
+        fetchChats()
     }
-    
-    func loadChats() {
-        // В реальном приложении здесь будет загрузка чатов с сервера
-        chats = Chat.getChatsForUser(userId: currentUserId)
+
+    deinit {
+        messagesListener?.remove()
+        chatsListener?.remove()
     }
-    
-    func loadMessages(for chat: Chat) {
-        // В реальном приложении здесь будет загрузка сообщений с сервера
-        selectedChat = chat
+
+    // Функция для загрузки списка чатов (ваша версия с диагностикой)
+    func fetchChats() {
+        guard let userId = currentUserId else {
+            print("❌ ДИАГНОСТИКА: fetchChats не может начаться, потому что currentUserId is nil.")
+            return
+        }
+        print("✅ ДИАГНОСТИКА 1: Запускаем fetchChats для пользователя с ID: \(userId)")
         
-        messages = Message.examples.filter { message in
-            (message.senderId == currentUserId && message.receiverId == getOtherUserId(chat)) ||
-            (message.receiverId == currentUserId && message.senderId == getOtherUserId(chat))
-        }.sorted { $0.timestamp < $1.timestamp }
+        chatsListener?.remove()
+        
+        print("✅ ДИАГНОСТИКА 2: Создаем запрос .whereField(\"participantIds\", arrayContains: \"\(userId)\")")
+        chatsListener = db.collection("Chats")
+            .whereField("participantIds", arrayContains: userId)
+            .addSnapshotListener { [weak self] (querySnapshot, error) in
+                
+                guard let documents = querySnapshot?.documents else {
+                    print("❌ ДИАГНОСТИКА 3: Ответ от Firestore пустой. Ошибка: \(error?.localizedDescription ?? "неизвестная ошибка")")
+                    return
+                }
+                
+                print("✅ ДИАГНОСТИКА 3: Получен ответ от Firestore. Количество документов: \(documents.count)")
+                
+                if documents.isEmpty {
+                    print("⚠️ ДИАГНОСТИКА: Запрос выполнен успешно, но не найдено ни одного чата для этого пользователя.")
+                }
+                
+                self?.chats = documents.compactMap { queryDocumentSnapshot -> Chat? in
+                    do {
+                        let chat = try queryDocumentSnapshot.data(as: Chat.self)
+                        print("  -> Успешно декодирован чат: \(chat.id ?? "no id")")
+                        return chat
+                    } catch {
+                        print("  -> ❌ Ошибка декодирования документа \(queryDocumentSnapshot.documentID): \(error)")
+                        return nil
+                    }
+                }
+                print("✅ ДИАГНОСТИКА 4: Декодировано и присвоено \(self?.chats.count ?? 0) чатов.")
+            }
     }
-    
-    func sendMessage() {
-        guard !newMessageText.isEmpty, let chat = selectedChat else { return }
-        
-        let otherUserId = getOtherUserId(chat)
-        
-        let newMessage = Message(
-            id: UUID().uuidString,
-            senderId: currentUserId,
-            receiverId: otherUserId,
-            content: newMessageText,
-            timestamp: Date(),
-            isRead: false
+
+    // --- НОВАЯ РЕАЛИЗАЦИЯ ---
+    // Функция для загрузки сообщений конкретного чата
+    func fetchMessages(for chatId: String) {
+        guard !chatId.isEmpty else { return }
+
+        // Удаляем предыдущий слушатель, чтобы не было утечек
+        messagesListener?.remove()
+
+        // Создаем путь к подколлекции Messages
+        let messagesQuery = db.collection("Chats").document(chatId).collection("Messages").order(by: "timestamp", descending: false)
+
+        messagesListener = messagesQuery.addSnapshotListener { [weak self] (querySnapshot, error) in
+            guard let documents = querySnapshot?.documents else {
+                print("Ошибка при загрузке сообщений: \(error?.localizedDescription ?? "неизвестно")")
+                return
+            }
+
+            // Декодируем документы в массив [Message]
+            self?.messages = documents.compactMap { document -> Message? in
+                try? document.data(as: Message.self)
+            }
+        }
+    }
+
+    // --- НОВАЯ РЕАЛИЗАЦИЯ ---
+    // Функция для отправки нового сообщения
+    func sendMessage(to chatId: String) {
+        guard let userId = currentUserId, !chatId.isEmpty, !newMessageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return
+        }
+
+        // Создаем новый объект сообщения
+        let message = Message(
+            senderId: userId,
+            text: newMessageText,
+            timestamp: Timestamp(date: Date())
         )
-        
-        // В реальном приложении здесь будет отправка сообщения на сервер
-        messages.append(newMessage)
-        
-        // Обновляем последнее сообщение в чате
-        if let index = chats.firstIndex(where: { $0.id == chat.id }) {
-            chats[index].lastMessage = newMessage
+
+        // Получаем ссылку на подколлекцию
+        let messagesCollection = db.collection("Chats").document(chatId).collection("Messages")
+
+        do {
+            // Добавляем новый документ в Firestore
+            try messagesCollection.addDocument(from: message)
+            
+            // Очищаем поле ввода после успешной отправки
+            self.newMessageText = ""
+            
+            // Обновляем lastMessage в родительском документе чата
+            db.collection("Chats").document(chatId).updateData([
+                "lastMessage": message.text,
+                "lastMessageTimestamp": message.timestamp
+            ])
+
+        } catch {
+            print("Ошибка при отправке сообщения: \(error)")
+            validationError = "Не удалось отправить сообщение. Попробуйте снова."
         }
-        
-        newMessageText = ""
-    }
-    
-    func getOtherUserId(_ chat: Chat) -> String {
-        return chat.participants.first { $0 != currentUserId } ?? ""
-    }
-    
-    func getOtherUserName(_ chat: Chat) -> String {
-        let otherUserId = getOtherUserId(chat)
-        
-        // В реальном приложении здесь будет получение имени пользователя из базы данных
-        switch otherUserId {
-        case "user2":
-            return "Александр"
-        case "user3":
-            return "Елена"
-        default:
-            return "Пользователь"
-        }
-    }
-    
-    func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        
-        if Calendar.current.isDateInToday(date) {
-            formatter.dateFormat = "HH:mm"
-        } else {
-            formatter.dateFormat = "dd.MM.yy"
-        }
-        
-        return formatter.string(from: date)
-    }
-    
-    func isUnreadMessage(in chat: Chat) -> Bool {
-        guard let lastMessage = chat.lastMessage else { return false }
-        return lastMessage.receiverId == currentUserId && !lastMessage.isRead
     }
 }
-

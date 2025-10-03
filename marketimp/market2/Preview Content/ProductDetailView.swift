@@ -9,7 +9,7 @@ struct ProductDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                // Placeholder because now no images are available
+                // MARK: - Image Gallery
                 if product.imageURLs.isEmpty {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
@@ -20,18 +20,34 @@ struct ProductDetailView: View {
                                 .font(.largeTitle)
                         )
                 } else {
-                    // In the future application, there will be a gallery of images here.
                     TabView(selection: $currentImageIndex) {
                         ForEach(0..<product.imageURLs.count, id: \.self) { index in
-                            // Placeholder for an image
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.3))
-                                .overlay(
-                                    Image(systemName: "photo")
-                                        .foregroundColor(.gray)
-                                        .font(.largeTitle)
-                                )
+                            if let url = URL(string: product.imageURLs[index]) {
+                                AsyncImage(url: url) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(height: 300)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .clipped()
+                                    case .failure:
+                                        Rectangle()
+                                            .fill(Color.gray.opacity(0.3))
+                                            .overlay(Image(systemName: "exclamationmark.triangle").foregroundColor(.gray).font(.largeTitle))
+                                    @unknown default:
+                                        Rectangle().fill(Color.gray.opacity(0.3))
+                                    }
+                                }
                                 .tag(index)
+                            } else {
+                                Rectangle()
+                                    .fill(Color.gray.opacity(0.3))
+                                    .overlay(Image(systemName: "questionmark").foregroundColor(.gray).font(.largeTitle))
+                                    .tag(index)
+                            }
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
@@ -39,13 +55,13 @@ struct ProductDetailView: View {
                     .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
                 }
                 
-                // Product info
+                // MARK: - Product Info
                 VStack(alignment: .leading, spacing: 8) {
                     Text(product.title)
                         .font(.title)
                         .fontWeight(.bold)
                     
-                    Text("\(product.price, specifier: "%.2f") ₽")
+                    Text("\(product.price, specifier: "%.2f") $")
                         .font(.title2)
                         .foregroundColor(.primary)
                     
@@ -55,20 +71,6 @@ struct ProductDetailView: View {
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(Color.blue.opacity(0.1))
-                            .cornerRadius(4)
-                        
-                        Text(product.condition)
-                            .font(.subheadline)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(Color.green.opacity(0.1))
-                            .cornerRadius(4)
-                        
-                        Text(product.location)
-                            .font(.subheadline)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(Color.orange.opacity(0.1))
                             .cornerRadius(4)
                     }
                     
@@ -83,66 +85,101 @@ struct ProductDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // Seller info
+                // MARK: - Seller Info
                 VStack(alignment: .leading, spacing: 8) {
                     Divider()
-                    
                     Text("Seller")
                         .font(.headline)
                     
                     if let seller = dataManager.getUser(id: product.sellerId) {
                         HStack {
-                            if let profileImageURL = seller.profileImageURL {
-                                // In the future application, an image will be loaded from a URL here.
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(.gray)
+                            if let profileImageURLString = seller.profileImageURL, let profileImageURL = URL(string: profileImageURLString) {
+                                AsyncImage(url: profileImageURL) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView().frame(width: 50, height: 50)
+                                    case .success(let image):
+                                        image.resizable().aspectRatio(contentMode: .fill).frame(width: 50, height: 50).clipShape(Circle())
+                                    case .failure:
+                                        Image(systemName: "person.circle.fill").resizable().frame(width: 50, height: 50).foregroundColor(.gray)
+                                    @unknown default:
+                                        Image(systemName: "person.circle.fill").resizable().frame(width: 50, height: 50).foregroundColor(.gray)
+                                    }
+                                }
                             } else {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .foregroundColor(.gray)
+                                Image(systemName: "person.circle.fill").resizable().frame(width: 50, height: 50).foregroundColor(.gray)
                             }
                             
                             VStack(alignment: .leading) {
-                                Text(seller.username)
-                                    .font(.subheadline)
-                                
+                                Text(seller.username).font(.subheadline)
                                 HStack {
-                                    Image(systemName: "star.fill")
-                                        .foregroundColor(.yellow)
-                                        .font(.caption)
-                                    
-                                    Text("\(seller.rating, specifier: "%.1f")")
-                                        .font(.caption)
+                                    Image(systemName: "star.fill").foregroundColor(.yellow).font(.caption)
+                                    Text("\(seller.rating, specifier: "%.1f")").font(.caption)
                                 }
                             }
                         }
                     } else {
-                        Text("Seller info is unavailible")
-                            .foregroundColor(.gray)
+                        Text("Seller info is unavailible").foregroundColor(.gray)
                     }
                 }
                 .padding(.horizontal)
-                
-                // “Write to seller” button
-                Button(action: {
-                    if let seller = dataManager.getUser(id: product.sellerId) {
-                        // Creating a chat with a seller
-                        let _ = dataManager.createChat(with: seller)
-                        // Chat navigation
+
+                // --- CORRECTED AUTHORIZATION BLOCK ---
+                if dataManager.userProfile?.id == product.sellerId {
+                    VStack {
+                        Divider().padding(.horizontal)
+                        HStack(spacing: 16) {
+                            Button(action: {
+                                // TODO: Implement navigation to the editing screen
+                                print("Edit button tapped for product \(product.id ?? "N/A")")
+                            }) {
+                                Text("Edit")
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(10)
+                            }
+
+                            Button(action: {
+                                // TODO: Implement deletion logic with confirmation
+                                // IMPORTANT: Final authorization check must be in DataManager before deletion
+                                // dataManager.delete(product)
+                                print("Delete button tapped for product \(product.id ?? "N/A")")
+                                presentationMode.wrappedValue.dismiss() // Dismiss view after deletion
+                            }) {
+                                Text("Delete")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.red)
+                                    .cornerRadius(10)
+                            }
+                        }
+                        .padding([.horizontal, .top])
                     }
-                }) {
-                    Text("Contact the seller")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
                 }
-                .padding()
+                
+                // MARK: - Contact Seller Button
+                // Показываем кнопку "Связаться", только если это не товар текущего пользователя
+                if dataManager.userProfile?.id != product.sellerId {
+                    Button(action: {
+                        if let seller = dataManager.getUser(id: product.sellerId) {
+                            let _ = dataManager.createChat(with: seller)
+                        }
+                    }) {
+                        Text("Contact the seller")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                    .padding()
+                }
             }
         }
         .navigationBarTitle("", displayMode: .inline)
