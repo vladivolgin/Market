@@ -220,50 +220,58 @@ This diagram clearly shows how client-side components interact with each other a
 To start working on the Market2 project, follow the installation instructions in README.md.
 
 ## Project Structure
+
+The project is organized by feature, promoting modularity, scalability, and ease of navigation. This structure separates concerns logically, making it easier to develop and maintain the codebase.
+
 ```
-Market2/
-├── App/
-│   ├── market2App.swift       # Application entry point
-│   └── ContentView.swift      # Main view with TabView
-├── Models/
-│   ├── Product.swift          # Product model
-│   ├── User.swift             # User model
-│   ├── Chat.swift             # Chat model
-│   └── Message.swift          # Message model
-├── Views/
-│   ├── Marketplace/
-│   │   ├── MarketplaceView.swift       # Marketplace view
-│   │   ├── ProductCard.swift           # Product card
-│   │   ├── ProductsGrid.swift          # Products grid
-│   │   └── ProductDetailView.swift     # Product detail view
-│   ├── Chat/
-│   │   ├── ChatsListView.swift         # Chats list
-│   │   ├── ChatDetailView.swift        # Chat detail view
-│   │   └── MessageBubble.swift         # Message bubble
-│   ├── Profile/
-│   │   ├── ProfileView.swift           # User profile
-│   │   └── ProductCardSmall.swift      # Small product card
-│   └── AddProduct/
-│       └── AddProductView.swift        # Add product form
-├── DataManager.swift                   # Application data management
-├── market2Tests/
-│   ├── Models/
-│   │    ├── ChatTests.swift            # Tests for the Chat model
-│   │    ├── MessageTests.swift         # Tests for the Message model
-│   │    ├── ProductTests.swift         # Tests for the Product model
-│   │    └── UserTests.swift            # Tests for the User model
-│   ├── Services/
-│   │    └── DataManagerTests.swift     # Tests for the DataManager
-│   ├── TestHelpers/
-│   │   ├── TestFactories.swift         # Tests for the Descriptions
-│   │   └── XCTestExtensions.swift      # Asynchronous code execution
-│   ├── Utils/
-│   │   └── ExtensionsTests.swift       # Tests for login through email
-│   └── ScreenshotTests.swift
-├── market2tests.swift
-├── market2UITests/
-│      ├── market2UITests.swift         # Ui Tests 
-│      └── market2UITestsLaunchTests.swift
+market2/
+├── App/                                # Core application setup and global services.
+│   ├── market2App.swift              # The main entry point of the application (@main). Initializes services and sets the root view.
+│   ├── ContentView.swift             # The root view, typically containing the TabView for main navigation.
+│   ├── DataManager.swift             # A repository handling all CRUD (Create, Read, Update, Delete) operations with the Firestore database.
+│   ├── AuthManager.swift             # Manages the user authentication lifecycle (login, logout, session state) with Firebase Authentication.
+│   └── NetworkManager.swift          # A utility for handling generic network requests, potentially configured with security features like SSL Pinning.
+│
+├── Models/                             # Data structures (Codable structs) that mirror the Firestore collections.
+│   ├── Product.swift                 # Represents a single item listed for sale in the marketplace.
+│   ├── User.swift                    # Represents a user's public profile, including username, rating, etc.
+│   ├── Chat.swift                    # Represents a conversation thread between two or more users.
+│   ├── Message.swift                 # Represents a single message within a Chat.
+│   ├── ForumTopic.swift              # Represents a main post in the community forum.
+│   └── ... (other models)            # Includes Review.swift, News.swift, and Reply.swift.
+│
+├── ViewModels/                         # Contains the business logic and state for the views (MVVM).
+│   ├── ProfileViewModel.swift        # Manages state for the ProfileView (e.g., fetching user data and their listings).
+│   ├── MessengerViewModel.swift      # Handles logic for the chat interface (e.g., fetching conversations, sending messages).
+│   ├── AddProductViewModel.swift     # Manages the logic for creating a new product, including data validation and image uploads.
+│   └── ... (other view models)       # Includes ViewModels for Forum, News, and individual product pages.
+│
+├── Views/                              # Contains all SwiftUI views, organized by feature.
+│   ├── Marketplace/                  # UI for the main marketplace feature.
+│   │   ├── GamerMarketView.swift     # The main screen for browsing and searching all available products.
+│   │   └── ProductDetailView.swift   # The detail screen shown when a user taps on a product.
+│   ├── Messenger/                    # UI for the real-time chat feature.
+│   │   ├── ChatListView.swift        # Displays a list of the user's active conversations.
+│   │   └── ChatDetailView.swift      # The screen for an individual chat, displaying all messages.
+│   ├── Profile/                      # UI for user profiles and settings.
+│   │   ├── ProfileView.swift         # Displays a user's profile information, rating, and their listed items.
+│   │   └── EditProfileView.swift     # A form for the user to edit their own profile details.
+│   ├── Forum/                        # UI for the community forum.
+│   │   └── ForumView.swift           # Displays a list of topics and allows users to participate in discussions.
+│   ├── News/                         # UI for the news feed.
+│   │   └── NewsView.swift            # Displays a list of articles.
+│   └── ... (other views)             # Can include shared/reusable components like LoadingView.swift, ProductCard.swift, etc.
+│
+├── Utilities/                          # Helper classes and extensions used across the application.
+│   ├── ImagePicker.swift             # A helper to integrate with UIKit's UIImagePickerController for photo selection.
+│   └── InputValidator.swift          # A utility for validating user input to enhance security and data integrity.
+│
+└── Tests/                              # Contains all unit and UI test targets.
+    ├── market2Tests/                 # The Unit Test target. Tests logic in isolation from the UI.
+    │   ├── Models/                   # Tests for data models (e.g., encoding/decoding).
+    │   ├── Services/                 # Tests for managers (e.g., AuthManager, DataManager) using mock data.
+    │   └── ViewModels/               # Tests for business logic within the ViewModels.
+    └── market2UITests/               # The UI Test target. Automates user interaction to verify user flows work as expected.
 ```
 ## Code Style
 
