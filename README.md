@@ -340,10 +340,34 @@ The UI testing suite focuses on the most critical paths within the application:
     -   Tests the ability to open a chat conversation and successfully send a message, verifying that it appears in the chat history.
 
 ## Performance Recommendations
-1. Use LazyVStack and LazyHGrid for large lists
-2. Cache images and other resources
-3. Avoid heavy operations on the main thread
-4. Use asynchronous operations for network requests
+
+To ensure a smooth, responsive, and cost-effective user experience, the following performance best practices should be followed during development.
+
+### 1. SwiftUI & View Rendering
+
+-   **Use Lazy Containers for Lists:** Always use `LazyVStack`, `LazyHStack`, and `LazyVGrid` for displaying large collections of data. These containers only create and render the views that are currently visible on screen, drastically reducing memory usage and initial load time.
+-   **Keep Views Small and Specific:** Break down complex views into smaller, reusable child views. This helps SwiftUI's diffing algorithm to be more efficient, as it only needs to re-render the small parts of the UI that have actually changed.
+-   **Minimize View Dependencies:** Only pass the exact data a view needs. A view that depends on an entire complex object will re-render every time any property on that object changes, even if the change is irrelevant to that view.
+
+### 2. Data Fetching & Firestore
+
+-   **Implement Pagination:** Never fetch an entire collection of thousands of documents at once. For lists of products, forum topics, etc., implement pagination by using Firestore's `limit()` and `start(after:)` queries to fetch data in smaller batches as the user scrolls.
+-   **Use Denormalization for Read-Heavy Operations:** Avoid performing complex calculations on the client. For example, instead of fetching all of a seller's reviews to calculate their average rating every time their profile is viewed, store the calculated `averageRating` and `numberOfRatings` directly on the `User` document. Use Cloud Functions to keep this aggregated data up-to-date.
+-   **Manage Real-Time Listeners Carefully:** Real-time listeners (`addSnapshotListener`) are powerful but can be costly and resource-intensive.
+    -   Attach listeners only when a view is active and visible.
+    -   Always detach listeners in `.onDisappear` or `deinit` to prevent memory leaks and unnecessary background updates.
+
+### 3. Image Handling
+
+-   **Load Images Asynchronously:** Always load network images on a background thread to avoid blocking the UI. SwiftUI's `AsyncImage` is a great starting point for this.
+-   **Implement Image Caching:** Do not re-download the same image every time it appears. Use a caching layer (either in-memory with `NSCache` or on-disk) to store images that have already been downloaded. This dramatically improves performance and reduces network data usage.
+-   **Use Thumbnails for Lists:** For list and grid views, load small, low-resolution thumbnails instead of full-size images. Only load the high-resolution image when the user navigates to the detail view. This can be achieved by using a Firebase Extension like "Resize Images" to automatically create thumbnails on the backend.
+
+### 4. Concurrency & Responsiveness
+
+-   **Move Heavy Work to Background Threads:** Any long-running task—such as processing data, complex calculations, or file I/O—must be moved off the main thread. Use Swift's modern concurrency features (`Task`, `async/await`) to perform this work in the background.
+-   **Update UI on the Main Thread:** All UI updates must be dispatched back to the main thread. When using `async/await`, ensure that any code updating the UI is marked with `@MainActor`.
+-   
 ## Resources for Developers
 SwiftUI Documentation
 Combine Documentation
