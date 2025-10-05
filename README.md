@@ -3,26 +3,15 @@
 This application is a mobile marketplace designed for users to browse, search, sell items, and interact within a community. It is built using modern iOS development practices with SwiftUI and a Firebase backend.
 
 ## Table of Contents
-- [Features](#features)
 - [Detailed Documentation](#detailed-documentation)
-- [Application Architecture](#application-architecture)
+- [Features](#features)
+- [Architecture Overview](#architecture-overview)
+- [Software Architecture Schemas](#software-architecture-schemas)
+- [Database Schema](#database-schema)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Product documentation](#product-documentation)
 - [Project Structure](#project-structure)
-- [Testing](#testing)
 - [Development Process](#development-process)
-- [Error Handling Strategy](#error-handling-strategy)
-- [Technical Decision log](#technical-decision-log)
-
-
-## Features
-
-- 🛍️ Browse items in a user-friendly interface
-- 💬 Built-in chat for communicating with sellers
-- 🔒 Enhanced personal data protection
-- 📱 Modern SwiftUI interface
-- 📦 Convenient addition of new items
 
 ## Detailed Documentation
 
@@ -31,9 +20,20 @@ For a more in-depth analysis of specific architectural components, please refer 
 *   **[NoSQL Project Report](NoSQL_Report.md):** Provides a deep dive into the Firestore database implementation, data modeling decisions, and future scalability plans.
 *   **[Cyber Security Module Report](CyberSecurity_Report.md):** Details the threat model (STRIDE), security measures, and the server-authoritative architecture implemented to protect the application.
 
-## Application Architecture
+## Features
 
-My application is built on the MVVM (Model-View-ViewModel) architecture using SwiftUI and Combine for reactive programming.
+- 🛍️ **Marketplace:** Browse, search, and list items for sale.
+- 💬 **Real-Time Chat:** Communicate securely with other users in real-time.
+- 📝 **Community Forum:** Participate in discussions on various topics.
+- 📰 **News Feed:** Stay updated with the latest news and articles.
+- ⭐ **User Reviews:** View and leave ratings for sellers.
+- 🔒 **Secure Authentication:** Managed by Firebase Authentication.
+- 📱 **Modern UI:** A responsive and modern interface built with SwiftUI.
+
+
+## Architecture Overview
+
+The Marketplace App is developed using the MVVM (Model-View-ViewModel) architecture, ensuring a clean separation of concerns and making the components easier to test. The user interface is built with SwiftUI, and asynchronous operations are handled using Swift's modern concurrency features (`async/await`).
 
 ## Requirements
 
@@ -82,72 +82,34 @@ Update your information and save the changes
 
 ## Conceptual Documentation
 ```markdown
-# Market2 Conceptual Documentation
-
-## Architecture Overview
-
-Market2 is developed using the MVVM (Model-View-ViewModel) architecture, ensuring a clean separation of concerns and making the components easier to test. The user interface is built with SwiftUI, while Combine is used for handling reactive programming.
-
 ### Key Components
 
-1. **Models** - Data models representing the main entities of the application:
-   - `Product` - An item for sale
-   - `User` - A user
-   - `Chat` - A chat between users
-   - `Message` - A message in a chat
+1.  **Models** - Swift structures that represent the main entities of the application, directly mapping to the collections in the Firestore database.
+    - `User` - Represents a user's public profile.
+    - `Product` - An item listed for sale.
+    - `Chat` & `Message` - Represent a conversation and its individual messages.
+    - `ForumTopic` & `Reply` - Represent a forum post and its replies.
+    - `News` - An article in the news feed.
+    - `Review` - A rating and comment for a seller.
 
-2. **Views** - Views displaying the user interface:
-   - `ContentView` - Main view with TabView
-   - `MarketplaceView` - View for browsing items
-   - `ChatsListView` - List of chats
-   - `ChatDetailView` - Detailed chat view
-   - `ProfileView` - User profile
-   - `AddProductView` - Item addition form
+2.  **Views** - A hierarchy of SwiftUI views responsible for displaying the user interface.
+    - `MarketplaceView` - Main screen for browsing and searching items.
+    - `ProductDetailView` - Shows detailed information about a single product.
+    - `ChatListView` & `ChatDetailView` - For managing and participating in conversations.
+    - `ForumView` - Displays a list of community topics.
+    - `NewsView` - The application's news feed.
+    - `ProfileView` - Displays user information and their listed items.
+    - `AddProductView` - The form for adding a new item.
 
-3. **ViewModels** - The link between models and views:
-   - `DataManager` - Manages application data and provides it to views
+3.  **ViewModels** - Classes that hold the state and business logic for the Views, processing user input and preparing data for display.
+    - `ProfileViewModel` - Manages the logic for the user profile screen.
+    - `MessengerViewModel` - Handles the state for the chat interface.
+    - `AddProductViewModel` - Manages the logic for adding a new product.
 
-4. **Services** - Services for interacting with external systems:
-   - Future versions will add services for working with APIs, databases, etc.
-
-## Data Flow
-
-The application is designed with a unidirectional data flow architecture in mind:
-
-1. The user interacts with the view
-2. The view calls methods in the DataManager
-3. The DataManager updates the data and notifies views through @Published properties
-4. Views are automatically updated thanks to SwiftUI and Combine
-
-## Navigation Scheme
-
-Navigation in the application is organized through TabView with four main tabs:
-
-1. **Market** - Browse available items
-2. **Messages** - Chats with other users
-3. **Add** - Add a new item (modal window)
-4. **Profile** - Manage user profile
-
-Additional screens are opened modally or through NavigationLink.
-
-## Security and Privacy
-
-One of the key features of this app is increased attention to security and privacy:
-
-- Minimal collection of user data
-- Encryption of messages in chats
-- Ability to hide personal information from other users
-- No tracking of user activity
-
-## Future Improvements
-
-Future versions plan to add:
-
-- Integration with a server API
-- Authentication through Firebase
-- Data storage in CloudKit
-- Support for push notifications
-- Advanced privacy settings
+4.  **Services** - Singleton or shared instances that encapsulate major functionalities and interactions with the backend.
+    - `DataManager` - Acts as a repository, handling all CRUD operations with the Firestore database.
+    - `AuthManager` - Manages the user authentication lifecycle with Firebase Authentication.
+    - `StorageManager` - Handles uploading and downloading images from Firebase Cloud Storage.
 ```
 
 ## Product documentation
