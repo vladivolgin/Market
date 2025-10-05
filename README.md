@@ -110,6 +110,47 @@ Update your information and save the changes
     - `DataManager` - Acts as a repository, handling all CRUD operations with the Firestore database.
     - `AuthManager` - Manages the user authentication lifecycle with Firebase Authentication.
     - `StorageManager` - Handles uploading and downloading images from Firebase Cloud Storage.
+    ### Data Flow
+
+The application follows a modern, reactive data flow:
+
+1.  The user interacts with a **View**.
+2.  The View calls a method on its **ViewModel**.
+3.  The ViewModel processes the request, calling one or more **Services**.
+4.  The Service interacts with the **Firebase Backend** and returns the result.
+5.  The ViewModel updates its state using `@Published` properties.
+6.  The View automatically re-renders to reflect the new state.
+
+### Navigation Scheme
+
+Navigation in the application is organized through a `TabView` with five main tabs:
+
+1.  **Market** - Browse available items.
+2.  **Forum** - Participate in community discussions.
+3.  **Add** - Add a new item (presented modally).
+4.  **Messages** - View and manage private chats.
+5.  **Profile** - Manage user profile and settings.
+
+Drill-down navigation within each tab is handled by `NavigationStack`.
+
+### Security and Privacy
+
+Security is a core principle, addressed with a multi-layered strategy:
+
+-   **Secure Authentication** via Firebase Authentication.
+-   **Server-Side Authorization** using Firestore Security Rules.
+-   **Secure Data Transport** over HTTPS for all Firebase communication.
+-   **Client-Side Input Validation** to prevent malformed data.
+-   **Secret Management** using `.xcconfig` files, excluded from version control.
+
+### Future Improvements
+
+Future versions plan to add:
+
+-   Integration with a dedicated search service like **Algolia**.
+-   **Push Notifications** using Firebase Cloud Messaging.
+-   **Payment Gateway Integration** (e.g., Stripe).
+-   **Data Analytics** using Firebase Analytics to guide development.
 ```
 
 ## Product documentation
