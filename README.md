@@ -3,6 +3,7 @@
 This application is a mobile marketplace designed for users to browse, search, sell items, and interact within a community. It is built using modern iOS development practices with SwiftUI and a Firebase backend.
 
 ## Table of Contents
+
 - [Detailed Documentation](#detailed-documentation)
 - [Features](#features)
 - [Architecture Overview](#architecture-overview)
@@ -12,6 +13,8 @@ This application is a mobile marketplace designed for users to browse, search, s
 - [Installation](#installation)
 - [Project Structure](#project-structure)
 - [Development Process](#development-process)
+- [Testing](#testing)
+- [Performance Recommendations](#performance-recommendations)
 
 ## Detailed Documentation
 
