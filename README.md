@@ -157,19 +157,35 @@ Future versions plan to add:
 <img width="628" alt="Снимок экрана 2025-04-21 в 22 39 42" src="https://github.com/user-attachments/assets/6268024f-b226-4fc3-9d73-7af1d56dc066" />
 
 <img width="618" alt="Снимок экрана 2025-04-21 в 22 39 53" src="https://github.com/user-attachments/assets/8c6c6042-a434-4cdf-803e-06225eb50f0a" />
+#### Description:
+This diagram illustrates the main actions available to the User within the application. It covers the key features of the system, grouped by module:
+Marketplace: Browsing, searching, publishing, and managing items.
+Communication: Interacting with other users via private messages and leaving reviews.
+Community: Engaging with the community through the forum and reading news.
+Authentication: Registering and signing into the system.
+The diagram provides a high-level overview of the system's functionality and how the user interacts with it.
 
-
-This diagrams is a representation of the functionality of the application at this stage of development.
 ## Software Architecture Schemas
 ### Logical architecture
 <img width="758" alt="Снимок экрана 2025-04-21 в 22 43 46" src="https://github.com/user-attachments/assets/e92fbc07-b83b-4016-b0c8-f7de0c2cd6be" />
 
 This schema is a representation of the functionality of the application at this stage of development.
+#### Description
+The Logical Architecture diagram demonstrates the application's internal structure and its division into layers. It shows how components are organized to ensure clean code and separation of concerns, following the MVVM pattern.
+Presentation Layer (View): Consists of SwiftUI Views, responsible solely for displaying the UI and forwarding user actions.
+Business Logic Layer (ViewModel): Where ViewModels manage the state for the Views, handle user input logic, and prepare data for display.
+Service/Manager Layer: A layer of services (AuthManager, DataManager) that encapsulates the logic for interacting with external systems, primarily Firebase.
+Model Layer: Contains data structures (Product, User, etc.) that mirror the entities in the Firestore database.
+Backend Services (Firebase): The external layer providing services like Authentication, Firestore database, and Cloud Storage.
 
 ### Physical Architecture
 <img width="988" alt="Снимок экрана 2025-04-21 в 20 51 23" src="https://github.com/user-attachments/assets/a81a8b4e-d075-46ac-97b9-14cf12f24352" />
 
-This schema is a representation of the functionality of the application at this stage of development.
+#### Description:
+This diagram shows the physical deployment of the system's components. It illustrates the client-server model, where:
+Client: The user's iOS device (iPhone/iPad) running the mobile application built with SwiftUI.
+Backend: The Google Cloud platform, which hosts the managed Firebase services. This includes Firestore (database), Firebase Authentication, and Cloud Storage (for images).
+Communication between the client and backend occurs over the secure HTTPS protocol, ensuring all data is encrypted in transit.
 ## Database schema
 <img width="989" alt="Снимок экрана 2025-04-21 в 21 41 31" src="https://github.com/user-attachments/assets/97d8dcd5-6c1e-4a01-9f6e-9b42b742b54d" />
 
@@ -177,8 +193,16 @@ This schema is a representation of the functionality of the application at this 
 ## Sequence diagram
 <img width="1005" alt="Снимок экрана 2025-04-21 в 19 21 24" src="https://github.com/user-attachments/assets/ae37ab29-b397-49e0-9145-52f916424b09" />
 
-This diagram is a representation of the functionality of the application at this stage of development. 
-
+#### Description:
+The Sequence Diagram demonstrates the dynamic interaction between system components to perform a specific scenario. The process of "Adding a New Item" is shown as an example.
+It illustrates the following steps:
+The user fills out the form in AddProductView and taps 'Save'.
+The View calls a method on its ViewModel.
+The ViewModel first uploads the image to Cloud Storage.
+After receiving the image URL, the ViewModel creates a Product object.
+It then calls the DataManager to save the new document to the products collection in Firestore.
+Upon successful saving, the ViewModel updates the UI to inform the user of the success.
+This diagram clearly shows how client-side components interact with each other and with various Firebase services to complete a single business task.
 
 ## Developer's Guide
 
