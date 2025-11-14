@@ -1,5 +1,8 @@
 # GamerMarket - Security Implementation
 
+## For detailed security analysis, see:
+[📁 Cyber Security - Google Drive](https://drive.google.com/drive/folders/1Dq6IPFaSAm9WPltazCQnLp2GgLApU44l?usp=sharing)
+
 ## Implemented Security Measures
 
 ### 🔐 Authentication & Authorization
@@ -41,4 +44,3 @@
 - ✅ STRIDE threat model analysis completed
 - ✅ Penetration testing scenarios validated
 - ✅ Firebase Security Rules tested
-
