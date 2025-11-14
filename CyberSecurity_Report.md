@@ -3,6 +3,10 @@
 > **Project:** GamerMarket iOS Application
 > **Student:** Ivolgin Vladislav
 
+
+## For detailed security analysis, see:
+[📁 Cyber Security - Google Drive](https://drive.google.com/drive/folders/1Dq6IPFaSAm9WPltazCQnLp2GgLApU44l?usp=sharing)
+
 ## 1. Introduction & Security Posture
 
 This report details the security architecture implemented within the "GamerMarket" iOS application. The primary objective was to transition the application from a baseline functional state to a comprehensively secured platform, adhering to the principles of defense-in-depth. A multi-layered security strategy was adopted, ensuring that the confidentiality, integrity, and availability of user data are protected across the entire application stack—from the client-side user interface to server-side data storage and the transport layer in between.
