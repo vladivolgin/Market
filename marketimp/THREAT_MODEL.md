@@ -1,5 +1,9 @@
 # Threat Model for the "Gamer's Marketplace" Application
 
+
+## For detailed security analysis, see:
+[📁 Cyber Security - Google Drive](https://drive.google.com/drive/folders/1Dq6IPFaSAm9WPltazCQnLp2GgLApU44l?usp=sharing)
+
 ## 1. Introduction
 
 This document outlines the threat model for the "Gamer's Marketplace" mobile application. The goal of this threat modeling exercise is to proactively identify, evaluate, and define mitigation strategies for potential security threats. This analysis is conducted using the **STRIDE** methodology.
