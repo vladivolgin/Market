@@ -203,7 +203,8 @@ Communication between the client and backend occurs over the secure HTTPS protoc
 
 This schema is a representation of the functionality of the application at this stage of development.
 ## Sequence diagram
-<img width="1005" alt="Снимок экрана 2025-04-21 в 19 21 24" src="https://github.com/user-attachments/assets/ae37ab29-b397-49e0-9145-52f916424b09" />
+<img width="989" height="682" alt="Снимок экрана 2025-11-15 в 16 06 56" src="https://github.com/user-attachments/assets/128e68c0-0d7b-406e-8da3-ee8b61b6a294" />
+
 
 #### Description:
 
