@@ -19,7 +19,10 @@ The current implementation successfully covers all fundamental requirements and 
 *   **Real-Time Data:** The chat and forum sections utilize Firestore's `addSnapshotListener` to listen for changes in real-time, providing a live and responsive experience.
 *   **Database Queries:** The project uses fundamental Firestore queries to interact with the database, including fetching document collections, filtering results using `whereField`, and ordering data.
 
-## 3. Data Model
+# 3. Data Model
+
+## Database schema
+<img width="989" height="682" alt="Снимок экрана 2025-11-15 в 16 06 56" src="https://github.com/user-attachments/assets/128e68c0-0d7b-406e-8da3-ee8b61b6a294" />
 
 The database is structured around several top-level collections, each representing a core entity of the application. This model is designed for efficient querying and scalability.
 
