@@ -199,13 +199,9 @@ Client: The user's iOS device (iPhone/iPad) running the mobile application built
 Backend: The Google Cloud platform, which hosts the managed Firebase services. This includes Firestore (database), Firebase Authentication, and Cloud Storage (for images).
 Communication between the client and backend occurs over the secure HTTPS protocol, ensuring all data is encrypted in transit.
 ## Database schema
-<img width="989" alt="Снимок экрана 2025-04-21 в 21 41 31" src="https://github.com/user-attachments/assets/97d8dcd5-6c1e-4a01-9f6e-9b42b742b54d" />
-
-This schema is a representation of the functionality of the application at this stage of development.
-## Sequence diagram
 <img width="989" height="682" alt="Снимок экрана 2025-11-15 в 16 06 56" src="https://github.com/user-attachments/assets/128e68c0-0d7b-406e-8da3-ee8b61b6a294" />
 
-
+This schema is a representation of the functionality of the application at this stage of development.
 #### Description:
 
 The Sequence Diagram demonstrates the dynamic interaction between system components to perform a specific scenario. The process of "Adding a New Item" is shown as an example.
