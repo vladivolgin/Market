@@ -135,7 +135,28 @@ Stores reviews left by users for sellers.
   }
 }
 ```
-
+### Forum Topics Collection
+Stores discussion topics for the community forum.
+```json
+{
+  "forumTopics": {
+    "TOPIC_ID_XYZ": {
+      "title": "Best Gaming Setup 2024",
+      "content": "What's your current gaming setup?",
+      "authorId": "USER_UID_123",
+      "category": "Discussion",
+      "createdAt": "Timestamp",
+      "replies": {
+        "REPLY_ID_1": {
+          "authorId": "USER_UID_456",
+          "content": "I love my mechanical keyboard!",
+          "timestamp": "Timestamp"
+        }
+      }
+    }
+  }
+}
+```
 ## 4. Future Work: Roadmap to Advanced Features
 
 To further enhance the application and demonstrate advanced NoSQL concepts, the following features are planned.
