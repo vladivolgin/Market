@@ -12,12 +12,38 @@ The choice of Firestore, a document-based NoSQL database, was a strategic decisi
 
 ## 2. Implemented Core Functionality
 
-The current implementation successfully covers all fundamental requirements and demonstrates a solid understanding of interacting with a NoSQL database from a client application.
+### 2.1 Authentication & Security
+- **Firebase Authentication** with email/password and social login
+- **Security Rules** implementing role-based access control
+- **Client-side validation** with server-side verification
 
-*   **User Authentication:** Secure user sign-up and login is handled via Firebase Authentication.
-*   **CRUD Operations:** The application fully implements Create, Read, Update, and Delete (CRUD) operations across all primary data collections (Users, Products, Chats, Reviews, Forum Topics, News).
-*   **Real-Time Data:** The chat and forum sections utilize Firestore's `addSnapshotListener` to listen for changes in real-time, providing a live and responsive experience.
-*   **Database Queries:** The project uses fundamental Firestore queries to interact with the database, including fetching document collections, filtering results using `whereField`, and ordering data.
+### 2.2 CRUD Operations
+- **Create:** Add products, forum topics, reviews, messages
+- **Read:** Real-time queries with pagination and filtering  
+- **Update:** Edit products, mark messages as read, update profiles
+- **Delete:** Remove products, moderate forum content
+
+### 2.3 Real-Time Features
+- **Live Chat:** `addSnapshotListener` for instant messaging
+- **Forum Updates:** Real-time topic and reply synchronization
+- **Notification System:** Push notifications for new messages/reviews
+
+  ### 2.4 Advanced Queries Implemented
+```swift
+// Complex compound queries
+db.collection("products")
+    .whereField("category", isEqualTo: "Electronics")
+    .whereField("price", isLessThan: 200)
+    .order(by: "createdAt", descending: true)
+    .limit(to: 10)
+
+// Real-time listeners with error handling
+db.collection("chats").document(chatId)
+    .collection("messages")
+    .order(by: "timestamp")
+    .addSnapshotListener { querySnapshot, error in
+        // Handle real-time updates
+```
 
 # 3. Data Model
 
@@ -26,6 +52,18 @@ The current implementation successfully covers all fundamental requirements and 
 
 The database is structured around several top-level collections, each representing a core entity of the application. This model is designed for efficient querying and scalability.
 
+## 3.1 Performance Optimizations
+
+### Data Denormalization
+- **User ratings** cached in user documents for instant access
+- **Product thumbnails** stored separately from full images
+- **Chat summaries** maintained for efficient list views
+
+### Query Optimization  
+- **Composite indexes** for complex filtering
+- **Pagination** using cursor-based approach
+- **Offline persistence** enabled for seamless user experience
+  
 ### Users Collection
 Stores public user profiles. The document ID corresponds to the user's Firebase Authentication UID.
 ```json
