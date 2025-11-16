@@ -1,5 +1,6 @@
 # NoSQL Project Report: SwiftUI Marketplace
 
+[For additional information you can follow this link](https://drive.google.com/drive/folders/1Dq6IPFaSAm9WPltazCQnLp2GgLApU44l?usp=sharing)
 ## 1. Project Description
 
 This project is a feature-rich mobile application for iOS, built with SwiftUI and backed by Google's NoSQL database, **Firestore**. The application serves as a multi-functional platform, integrating a product marketplace, a community forum, a news feed, and a real-time private chat system.
