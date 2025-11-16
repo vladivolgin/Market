@@ -59,7 +59,7 @@ bash
 
 Copy
 ```
-open Market2.xcodeproj
+open market2.xcodeproj
 ```
 When working on my project, I set it up to use dependencies through Swift Package Manager. This means Xcode automatically downloads everything needed when the project is opened for the first time. To test it, you can select the target device (simulator or a real device) at the top of Xcode, then hit "Build and Run" (the triangle button) or just press Cmd+R to launch the app.
 Creating Your First Item
