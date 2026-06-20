@@ -35,6 +35,11 @@ struct LoginView: View {
         .alert(isPresented: $showingError) {
             Alert(title: Text("Login Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
         }
+        .onChange(of: authManager.errorMessage) { _, newValue in
+            guard let newValue else { return }
+            errorMessage = newValue
+            showingError = true
+        }
     }
 
     private func validateInput() -> Bool {

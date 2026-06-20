@@ -2,10 +2,10 @@ import SwiftUI
 
 // MARK: - Root View (The Router)
 struct ContentView: View {
-    
+
     @StateObject private var authManager = AuthManager()
 
-    @StateObject private var dataManager = DataManager()
+    @EnvironmentObject var dataManager: DataManager
 
     var body: some View {
 
