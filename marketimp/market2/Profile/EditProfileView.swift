@@ -5,11 +5,13 @@ struct EditProfileView: View {
     @State private var user: User
     @State private var username: String
     @State private var email: String
-    
-    init(user: User) {
+    let onSave: (User) -> Void
+
+    init(user: User, onSave: @escaping (User) -> Void) {
         self._user = State(initialValue: user)
         self._username = State(initialValue: user.username)
         self._email = State(initialValue: user.email)
+        self.onSave = onSave
     }
     
     var body: some View {
@@ -55,23 +57,28 @@ struct EditProfileView: View {
                 
                 Section(header: Text("Private data")) {
                     TextField("Username", text: $username)
+                    if let usernameError {
+                        Text(usernameError).font(.caption).foregroundColor(.red)
+                    }
+
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
+                    if let emailError {
+                        Text(emailError).font(.caption).foregroundColor(.red)
+                    }
                 }
-                
+
                 Section {
                     Button("Save") {
-                        // Update userdata
                         user.username = username
                         user.email = email
-                        
-                        // In a future application, data will be sent to the server here.
-                        
+                        onSave(user)
                         dismiss()
                     }
+                    .disabled(!isFormValid)
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(.blue)
+                    .foregroundColor(isFormValid ? .blue : .gray)
                 }
             }
             .navigationTitle("Change profile")
@@ -84,5 +91,28 @@ struct EditProfileView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Field validation
+
+    private var usernameError: String? {
+        let trimmed = username.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return "Username cannot be empty." }
+        if !InputValidator.isSafe(trimmed) { return "Username contains invalid characters." }
+        if trimmed.count < 3 { return "Username must be at least 3 characters." }
+        if !InputValidator.isLengthValid(trimmed, maxLength: 30) { return "Username is too long." }
+        return nil
+    }
+
+    private var emailError: String? {
+        let trimmed = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return "Email cannot be empty." }
+        if !InputValidator.isLengthValid(trimmed, maxLength: 100) { return "Email is too long." }
+        if !InputValidator.isValidEmail(trimmed) { return "Please enter a valid email address." }
+        return nil
+    }
+
+    private var isFormValid: Bool {
+        usernameError == nil && emailError == nil
     }
 }

@@ -31,4 +31,12 @@ struct InputValidator {
     static func isLengthValid(_ input: String, maxLength: Int = 256) -> Bool {
         return input.count <= maxLength
     }
+
+    /// Validates a string against a standard email address shape.
+    /// - Parameter input: The string to validate.
+    /// - Returns: `true` if `input` looks like a valid email address.
+    static func isValidEmail(_ input: String) -> Bool {
+        let pattern = #"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"#
+        return input.range(of: pattern, options: .regularExpression) != nil
+    }
 }

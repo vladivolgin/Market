@@ -17,7 +17,6 @@
 		B7E3676A2DB40B0A005F3BD7 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B7E367692DB40B0A005F3BD7 /* Kingfisher */; };
 		B7E3F6542E8A8422003664BD /* THREAT_MODEL.md in Resources */ = {isa = PBXBuildFile; fileRef = B7E3F6532E8A8405003664BD /* THREAT_MODEL.md */; };
 		B7E3F6562E8A8869003664BD /* InputValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E3F6552E8A885E003664BD /* InputValidator.swift */; };
-		B7E3F65A2E8A9457003664BD /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E3F6592E8A944E003664BD /* NetworkManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +43,6 @@
 		B7E367242DB409F4005F3BD7 /* market2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = market2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7E3F6532E8A8405003664BD /* THREAT_MODEL.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = THREAT_MODEL.md; sourceTree = "<group>"; };
 		B7E3F6552E8A885E003664BD /* InputValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputValidator.swift; sourceTree = "<group>"; };
-		B7E3F6592E8A944E003664BD /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		D8988912A418B114D7EE1C3E /* Pods_market2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_market2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFFBD4F7B3E09595F118531C /* Pods_market2_market2UITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_market2_market2UITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -126,7 +124,6 @@
 		B7E366FC2DB409F2005F3BD7 = {
 			isa = PBXGroup;
 			children = (
-				B7E3F6592E8A944E003664BD /* NetworkManager.swift */,
 				B7E3F6552E8A885E003664BD /* InputValidator.swift */,
 				B7E3F6532E8A8405003664BD /* THREAT_MODEL.md */,
 				B7E367072DB409F2005F3BD7 /* market2 */,
@@ -369,7 +366,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7E3F65A2E8A9457003664BD /* NetworkManager.swift in Sources */,
 				B7E3F6562E8A8869003664BD /* InputValidator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

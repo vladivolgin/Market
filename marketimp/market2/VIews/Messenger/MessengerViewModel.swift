@@ -18,6 +18,7 @@ class MessengerViewModel: ObservableObject {
 
     private var messagesListener: ListenerRegistration?
     private var chatsListener: ListenerRegistration?
+    private var currentChatId: String?
 
     private init() {
         fetchChats()
@@ -32,11 +33,15 @@ class MessengerViewModel: ObservableObject {
   
     func attachListener(for chatId: String) {
         guard !chatId.isEmpty else { return }
-       
-        guard messagesListener == nil else {
+
+        guard currentChatId != chatId || messagesListener == nil else {
             print("Listener for chat \(chatId) is already attached.")
             return
         }
+
+        messagesListener?.remove()
+        currentChatId = chatId
+        messages = []
 
         let messagesQuery = db.collection("Chats").document(chatId).collection("Messages").order(by: "timestamp", descending: false)
 
@@ -58,6 +63,7 @@ class MessengerViewModel: ObservableObject {
         print("⚪️ Detaching listener.")
         messagesListener?.remove()
         messagesListener = nil
+        currentChatId = nil
 
         messages = []
     }

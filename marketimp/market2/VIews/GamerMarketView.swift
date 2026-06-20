@@ -9,6 +9,7 @@ struct GamerMarketView: View {
     
    
     @State private var isInputInvalid = false
+    @State private var showingAddProduct = false
 
     var body: some View {
         NavigationView {
@@ -65,12 +66,23 @@ struct GamerMarketView: View {
                 }
             }
             .navigationTitle("Market")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showingAddProduct = true }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
             .sheet(isPresented: $showingProductDetails) {
                 if let product = selectedProduct {
-                   
+
                     ProductDetailView(product: product)
                         .environmentObject(dataManager)
                 }
+            }
+            .sheet(isPresented: $showingAddProduct) {
+                AddProductView()
+                    .environmentObject(dataManager)
             }
         }
     }

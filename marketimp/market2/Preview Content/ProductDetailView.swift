@@ -167,7 +167,7 @@ struct ProductDetailView: View {
                 if dataManager.userProfile?.id != product.sellerId {
                     Button(action: {
                         if let seller = dataManager.getUser(id: product.sellerId) {
-                            let _ = dataManager.createChat(with: seller)
+                            dataManager.createChat(with: seller)
                         }
                     }) {
                         Text("Contact the seller")

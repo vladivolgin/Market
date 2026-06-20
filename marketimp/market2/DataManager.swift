@@ -13,6 +13,7 @@ class DataManager: ObservableObject {
     @Published var chats: [Chat] = []
     @Published var newsArticles: [NewsArticle] = []
     @Published var forumTopics: [ForumTopic] = []
+    @Published private(set) var userCache: [String: User] = [:]
 
     private var db = Firestore.firestore()
 
@@ -96,24 +97,49 @@ class DataManager: ObservableObject {
     func addProduct(_ product: Product) {
         products.insert(product, at: 0)
     }
-    
+
+    // MARK: - Users (Работает с Firebase)
+
+    // Returns nil on first call and fetches async; @Published userCache triggers a redraw once it resolves.
     func getUser(id: String) -> User? {
-        return User.example
-    }
-    
-    func getOtherParticipant(in chat: Chat) -> User? {
-        return User.example
-    }
-    
-    func getMessages(for chatId: String) -> [Message] {
-        return []
-    }
-    
-    func sendMessage(content: String, to chatId: String) {
-        
-    }
-    
-    func createChat(with otherUser: User) -> Chat? {
+        if let cached = userCache[id] {
+            return cached
+        }
+        Task { await fetchUser(id: id) }
         return nil
+    }
+
+    private func fetchUser(id: String) async {
+        guard userCache[id] == nil else { return }
+        do {
+            let document = try await db.collection("Users").document(id).getDocument()
+            guard var user = try? document.data(as: User.self) else { return }
+            user.id = document.documentID
+            userCache[id] = user
+        } catch {
+            print("❌ Error fetching user \(id): \(error.localizedDescription)")
+        }
+    }
+
+    /// Finds (or creates) a direct chat between the current user and `otherUser`.
+    func createChat(with otherUser: User) {
+        guard let currentUserId = userProfile?.id, currentUserId != otherUser.id else { return }
+        let participantIds = [currentUserId, otherUser.id].sorted()
+
+        Task {
+            do {
+                let existing = try await db.collection("Chats")
+                    .whereField("participantIds", isEqualTo: participantIds)
+                    .getDocuments()
+                guard existing.documents.isEmpty else { return }
+
+                try await db.collection("Chats").addDocument(data: [
+                    "participantIds": participantIds,
+                    "lastMessage": NSNull()
+                ])
+            } catch {
+                print("❌ Error creating chat with \(otherUser.id): \(error.localizedDescription)")
+            }
+        }
     }
 }

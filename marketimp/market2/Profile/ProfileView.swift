@@ -4,7 +4,9 @@ struct ProfileView: View {
    
     @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var dataManager: DataManager
-    
+    @State private var showingEditProfile = false
+    @State private var showingSettings = false
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -63,6 +65,26 @@ struct ProfileView: View {
             }
             .navigationTitle("Profile")
             .background(Color.gray.opacity(0.1).edgesIgnoringSafeArea(.all))
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { showingEditProfile = true }) {
+                        Image(systemName: "pencil")
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showingSettings = true }) {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingEditProfile) {
+                EditProfileView(user: dataManager.userProfile ?? User.example) { updatedUser in
+                    dataManager.userProfile = updatedUser
+                }
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
+            }
         }
     }
     
