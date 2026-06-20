@@ -43,20 +43,24 @@ struct LoginView: View {
     }
 
     private func validateInput() -> Bool {
-       
         if email.isEmpty || password.isEmpty {
             errorMessage = "Email and password cannot be empty."
             showingError = true
             return false
         }
-        
-      
-        if !email.contains("@") {
+
+        if !InputValidator.isValidEmail(email) {
             errorMessage = "Please enter a valid email address."
             showingError = true
             return false
         }
-        
+
+        if password.count < 6 {
+            errorMessage = "Password must be at least 6 characters."
+            showingError = true
+            return false
+        }
+
         return true
     }
 }

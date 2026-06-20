@@ -22,31 +22,43 @@ struct AddProductView: View {
                 // Section with main information
                 Section(header: Text("Product Information")) {
                     TextField("Title", text: $title)
-                    
+                    if let titleError {
+                        Text(titleError).font(.caption).foregroundColor(.red)
+                    }
+
                     TextField("Price", text: $price)
                         .keyboardType(.decimalPad)
-                    
+                    if let priceError {
+                        Text(priceError).font(.caption).foregroundColor(.red)
+                    }
+
                     Picker("Category", selection: $category) {
                         ForEach(categories, id: \.self) {
                             Text($0)
                         }
                     }
-                    
+
                     Picker("Condition", selection: $condition) {
                         ForEach(conditions, id: \.self) {
                             Text($0)
                         }
                     }
-                    
+
                     TextField("Location", text: $location)
-                    
+                    if let locationError {
+                        Text(locationError).font(.caption).foregroundColor(.red)
+                    }
+
                     VStack(alignment: .leading) {
                         Text("Description")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        
+
                         TextEditor(text: $description)
                             .frame(minHeight: 100)
+                        if let descriptionError {
+                            Text(descriptionError).font(.caption).foregroundColor(.red)
+                        }
                     }
                 }
                 
@@ -115,17 +127,53 @@ struct AddProductView: View {
         }
     }
     
+    // MARK: - Field validation
+
+    private var titleError: String? {
+        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return nil }
+        if !InputValidator.isSafe(trimmed) { return "Title contains invalid characters." }
+        if !InputValidator.isLengthValid(trimmed, maxLength: 100) { return "Title is too long." }
+        return nil
+    }
+
+    private var priceError: String? {
+        let trimmed = price.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return nil }
+        guard let value = Double(trimmed) else { return "Enter a valid price." }
+        if value <= 0 { return "Price must be greater than 0." }
+        return nil
+    }
+
+    private var descriptionError: String? {
+        let trimmed = description.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return nil }
+        if !InputValidator.isSafe(trimmed) { return "Description contains invalid characters." }
+        if !InputValidator.isLengthValid(trimmed, maxLength: 2000) { return "Description is too long." }
+        return nil
+    }
+
+    private var locationError: String? {
+        let trimmed = location.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return nil }
+        if !InputValidator.isSafe(trimmed) { return "Location contains invalid characters." }
+        if !InputValidator.isLengthValid(trimmed, maxLength: 100) { return "Location is too long." }
+        return nil
+    }
+
     // Form validation check
     private var isFormValid: Bool {
         !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !price.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        titleError == nil && priceError == nil && descriptionError == nil && locationError == nil
     }
     
     // Adding a new product
     private func addProduct() {
-        guard let priceValue = Double(price),
+        guard isFormValid,
+              let priceValue = Double(price),
               let currentUser = dataManager.userProfile else {
             return
         }
