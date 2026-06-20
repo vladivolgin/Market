@@ -110,17 +110,7 @@ struct AddProductView: View {
                 presentationMode.wrappedValue.dismiss()
             })
             .sheet(isPresented: $showingImagePicker) {
-                // Here will be ImagePicker for selecting images
-                // In a real app, you would use UIViewControllerRepresentable for UIImagePickerController
-                // For simplicity, we're using a placeholder
-                Text("Image selection will be here")
-                    .padding()
-                    .onTapGesture {
-                        // Adding a test image
-                        let image = UIImage(systemName: "photo") ?? UIImage()
-                        images.append(image)
-                        showingImagePicker = false
-                    }
+                ImagePicker(selectedImages: $images)
             }
         }
     }

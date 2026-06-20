@@ -5,11 +5,13 @@ struct EditProfileView: View {
     @State private var user: User
     @State private var username: String
     @State private var email: String
-    
-    init(user: User) {
+    let onSave: (User) -> Void
+
+    init(user: User, onSave: @escaping (User) -> Void) {
         self._user = State(initialValue: user)
         self._username = State(initialValue: user.username)
         self._email = State(initialValue: user.email)
+        self.onSave = onSave
     }
     
     var body: some View {
@@ -62,12 +64,9 @@ struct EditProfileView: View {
                 
                 Section {
                     Button("Save") {
-                        // Update userdata
                         user.username = username
                         user.email = email
-                        
-                        // In a future application, data will be sent to the server here.
-                        
+                        onSave(user)
                         dismiss()
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
