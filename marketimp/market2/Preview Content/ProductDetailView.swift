@@ -4,6 +4,7 @@ struct ProductDetailView: View {
     let product: Product
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dataManager: DataManager
+    @EnvironmentObject var sessionStore: SessionStore
     @State private var currentImageIndex = 0
     
     var body: some View {
@@ -125,7 +126,7 @@ struct ProductDetailView: View {
                 .padding(.horizontal)
 
                 // --- CORRECTED AUTHORIZATION BLOCK ---
-                if dataManager.userProfile?.id == product.sellerId {
+                if sessionStore.currentUser?.id == product.sellerId {
                     VStack {
                         Divider().padding(.horizontal)
                         HStack(spacing: 16) {
@@ -164,10 +165,11 @@ struct ProductDetailView: View {
                 
                 // MARK: - Contact Seller Button
                 // Показываем кнопку "Связаться", только если это не товар текущего пользователя
-                if dataManager.userProfile?.id != product.sellerId {
+                if sessionStore.currentUser?.id != product.sellerId {
                     Button(action: {
-                        if let seller = dataManager.getUser(id: product.sellerId) {
-                            dataManager.createChat(with: seller)
+                        if let currentUserId = sessionStore.currentUser?.id,
+                           let seller = dataManager.getUser(id: product.sellerId) {
+                            dataManager.createChat(currentUserId: currentUserId, with: seller)
                         }
                     }) {
                         Text("Contact the seller")

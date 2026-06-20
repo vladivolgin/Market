@@ -6,9 +6,8 @@ import FirebaseFirestoreSwift
 
 @MainActor
 class DataManager: ObservableObject {
-    
+
     // MARK: - Published Properties
-    @Published var userProfile: User?
     @Published var products: [Product] = []
     @Published var chats: [Chat] = []
     @Published var newsArticles: [NewsArticle] = []
@@ -16,11 +15,11 @@ class DataManager: ObservableObject {
     @Published private(set) var userCache: [String: User] = [:]
 
     private var db = Firestore.firestore()
+    private let userService: UserServiceProtocol
 
-    init() {
-        loadUserProfile()
+    init(userService: UserServiceProtocol = FirestoreUserService()) {
+        self.userService = userService
         Task {
-            
             await fetchProducts(searchText: "")
         }
     }
@@ -89,11 +88,7 @@ class DataManager: ObservableObject {
     }
     
     // MARK: Other functions (Placeholder)
-    
-    func loadUserProfile() {
-        userProfile = User.example
-    }
-    
+
     func addProduct(_ product: Product) {
         products.insert(product, at: 0)
     }
@@ -112,18 +107,15 @@ class DataManager: ObservableObject {
     private func fetchUser(id: String) async {
         guard userCache[id] == nil else { return }
         do {
-            let document = try await db.collection("Users").document(id).getDocument()
-            guard var user = try? document.data(as: User.self) else { return }
-            user.id = document.documentID
-            userCache[id] = user
+            userCache[id] = try await userService.fetchUser(id: id)
         } catch {
             print("❌ Error fetching user \(id): \(error.localizedDescription)")
         }
     }
 
-    /// Finds (or creates) a direct chat between the current user and `otherUser`.
-    func createChat(with otherUser: User) {
-        guard let currentUserId = userProfile?.id, currentUserId != otherUser.id else { return }
+    /// Finds (or creates) a direct chat between `currentUserId` and `otherUser`.
+    func createChat(currentUserId: String, with otherUser: User) {
+        guard currentUserId != otherUser.id else { return }
         let participantIds = [currentUserId, otherUser.id].sorted()
 
         Task {

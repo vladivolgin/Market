@@ -3,7 +3,8 @@ import SwiftUI
 struct AddProductView: View {
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var dataManager: DataManager
-    
+    @EnvironmentObject var sessionStore: SessionStore
+
     @State private var title = ""
     @State private var description = ""
     @State private var price = ""
@@ -174,7 +175,7 @@ struct AddProductView: View {
     private func addProduct() {
         guard isFormValid,
               let priceValue = Double(price),
-              let currentUser = dataManager.userProfile else {
+              let currentUser = sessionStore.currentUser else {
             return
         }
         

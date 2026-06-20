@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
    
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var sessionStore: SessionStore
     @EnvironmentObject var dataManager: DataManager
     @State private var showingEditProfile = false
     @State private var showingSettings = false
@@ -20,7 +20,7 @@ struct ProfileView: View {
                             .padding(.horizontal)
                         
                         
-                        if let userId = dataManager.userProfile?.id {
+                        if let userId = sessionStore.currentUser?.id {
                             let userProducts = dataManager.products.filter { $0.sellerId == userId }
                             if userProducts.isEmpty {
                                 Text("You don't have any items yet")
@@ -45,9 +45,9 @@ struct ProfileView: View {
                     }
                     .padding(.vertical)
                 
-                    if authManager.isAuthenticated {
+                    if sessionStore.isAuthenticated {
                         Button(action: {
-                            authManager.logout()
+                            sessionStore.logout()
                         }) {
                             Text("Log Out")
                                 .fontWeight(.semibold)
@@ -78,9 +78,7 @@ struct ProfileView: View {
                 }
             }
             .sheet(isPresented: $showingEditProfile) {
-                EditProfileView(user: dataManager.userProfile ?? User.example) { updatedUser in
-                    dataManager.userProfile = updatedUser
-                }
+                EditProfileView(user: sessionStore.currentUser ?? User.example)
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()

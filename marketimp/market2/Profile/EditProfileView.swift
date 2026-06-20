@@ -2,16 +2,13 @@ import SwiftUI
 
 struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var user: User
+    @EnvironmentObject var sessionStore: SessionStore
     @State private var username: String
     @State private var email: String
-    let onSave: (User) -> Void
 
-    init(user: User, onSave: @escaping (User) -> Void) {
-        self._user = State(initialValue: user)
+    init(user: User) {
         self._username = State(initialValue: user.username)
         self._email = State(initialValue: user.email)
-        self.onSave = onSave
     }
     
     var body: some View {
@@ -71,10 +68,10 @@ struct EditProfileView: View {
 
                 Section {
                     Button("Save") {
-                        user.username = username
-                        user.email = email
-                        onSave(user)
-                        dismiss()
+                        Task {
+                            await sessionStore.updateProfile(username: username, email: email)
+                            dismiss()
+                        }
                     }
                     .disabled(!isFormValid)
                     .frame(maxWidth: .infinity, alignment: .center)

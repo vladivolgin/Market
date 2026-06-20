@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @EnvironmentObject var sessionStore: SessionStore
     // --- ИЗМЕНЕНИЕ: username -> email ---
     @State private var email = ""
     @State private var password = ""
@@ -26,8 +26,10 @@ struct LoginView: View {
             
             Button("Log In") {
                 guard validateInput() else { return }
-                
-                authManager.login(email: email, password: password)
+
+                Task {
+                    await sessionStore.login(email: email, password: password)
+                }
             }
             .padding().background(Color.blue).foregroundColor(.white).cornerRadius(10)
         }
@@ -35,7 +37,7 @@ struct LoginView: View {
         .alert(isPresented: $showingError) {
             Alert(title: Text("Login Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
         }
-        .onChange(of: authManager.errorMessage) { _, newValue in
+        .onChange(of: sessionStore.errorMessage) { _, newValue in
             guard let newValue else { return }
             errorMessage = newValue
             showingError = true

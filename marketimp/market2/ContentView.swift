@@ -3,19 +3,16 @@ import SwiftUI
 // MARK: - Root View (The Router)
 struct ContentView: View {
 
-    @StateObject private var authManager = AuthManager()
-
+    @EnvironmentObject var sessionStore: SessionStore
     @EnvironmentObject var dataManager: DataManager
 
     var body: some View {
 
-        if authManager.isAuthenticated {
+        if sessionStore.isAuthenticated {
             MainTabView()
-                .environmentObject(authManager)
                 .environmentObject(dataManager)
         } else {
             LoginView()
-                .environmentObject(authManager)
         }
     }
 }
